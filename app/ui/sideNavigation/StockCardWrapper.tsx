@@ -10,7 +10,7 @@ const initialStockData = [
     { symbol: 'IDFC', exchange: 'NSE EQ', currentPrice: 126.65, change: 1.65, changePercentage: 1.32 },
 ];
 
-const CardWrapper: React.FC = () => {
+const StockCardWrapper: React.FC = () => {
     const [stockData, setStockData] = useState<StockUpdate[]>(initialStockData);
 
     useEffect(() => {
@@ -51,4 +51,4 @@ const CardWrapper: React.FC = () => {
     );
 };
 
-export default CardWrapper;
+export default StockCardWrapper;

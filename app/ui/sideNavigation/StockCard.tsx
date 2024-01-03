@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import HoverOverlay from "./HoverOverlay";
+import HoverOverlayStockCard from "./HoverOverlayStockCard";
 
 interface StockCardProps {
     symbol: string;
@@ -44,7 +44,7 @@ export default function StockCard({
                         </div>
                     </div>
                 }
-                {isHovered && <HoverOverlay />}
+                {isHovered && <HoverOverlayStockCard />}
             </div>
         </div>
     );

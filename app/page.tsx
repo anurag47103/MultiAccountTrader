@@ -1,10 +1,10 @@
 'use client'
-import CardWrapper from "./ui/sideNavigation/CardWrapper";
+import StockCardWrapper from "@/ui/sideNavigation/StockCardWrapper";
 
 export default function Home() {
   return (
     <main>
-        <CardWrapper />
+        hey
     </main>
   )
 }

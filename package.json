@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "fuse.js": "^7.0.0",
     "google-protobuf": "^3.21.2",
     "next": "14.0.4",
     "protobufjs": "^7.2.5",
