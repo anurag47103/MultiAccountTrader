@@ -11,13 +11,13 @@ interface StockCardProps {
     changePercentage: number;
 }
 
-export default function StockCard({
+const StockCard = React.memo(({
                                       symbol,
                                       exchange,
                                       currentPrice,
                                       change,
                                       changePercentage
-                                  }: StockCardProps) {
+                                  }: StockCardProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const priceChangeColor = change < 0 ? 'text-red-600' : 'text-green-600';
 
@@ -48,4 +48,6 @@ export default function StockCard({
             </div>
         </div>
     );
-}
+});
+
+export default StockCard;

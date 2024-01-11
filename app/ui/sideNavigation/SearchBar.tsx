@@ -1,15 +1,24 @@
 'use client'
+
 import React, {useEffect, useState} from 'react';
 import Fuse from "fuse.js";
 interface searchedStockData {
-    instrument_key: string;
+    symbol: string;
     name: string;
     exchange: string;
 }
 
-const SearchBar = (data : searchedStockData[]) => {
+const SearchBar = () => {
+    const [data, setData] = useState<searchedStockData[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [results, setResults] = useState<searchedStockData[]>([]);
+
+    useEffect(() => {
+        // Fetch the data on component mount
+        // fetch('/api/stockData') // Replace with your API endpoint
+        //     .then((res) => res.json())
+        //     .then((data) => setData(data));
+    }, []);
 
     useEffect(() => {
         const options = {
@@ -38,8 +47,11 @@ const SearchBar = (data : searchedStockData[]) => {
                 />
                 {searchTerm && (
                     <div className="absolute top-full mt-1 w-full bg-white shadow-md max-h-60 overflow-y-auto">
-                        {/* Components or elements that represent the search results go here */}
-                        {/* This will only render when there is some text in the search input */}
+                        {results.map((stock, index) => (
+                            <div key={index}>
+                                {stock.name} - {stock.symbol}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>

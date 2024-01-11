@@ -1,0 +1,8 @@
+const REACT_APP_REDIRECT_URI = process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_URI || '';
+const REACT_APP_GET_AUTH_URL = process.env.NEXT_PUBLIC_REACT_APP_GET_AUTH_URL || '';
+
+console.log(REACT_APP_GET_AUTH_URL)
+export default {
+    REACT_APP_REDIRECT_URI,
+    REACT_APP_GET_AUTH_URL
+};

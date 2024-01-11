@@ -49,3 +49,5 @@ export const decodeMessage = (message: ArrayBuffer): StockUpdate[] => {
     return formatedUpdate;
 };
 
+
+
