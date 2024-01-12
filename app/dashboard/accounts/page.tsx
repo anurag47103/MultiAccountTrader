@@ -28,7 +28,6 @@ const AccountsPage: React.FC = () => {
     };
 
     const handleLogout = (userId: string) => {
-        // Logic to logout the user, e.g., filter out the user by userId
         setAccounts(prevAccounts => prevAccounts.filter(account => account.userId !== userId));
     };
 

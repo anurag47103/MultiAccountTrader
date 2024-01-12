@@ -1,5 +1,6 @@
 import { decodeMessage} from "@/lib/utils";
 import {StockUpdate} from "@/types/websocket";
+import axios from "axios";
 
 export type UpdateFunction = (update : StockUpdate[]) => void;
 
