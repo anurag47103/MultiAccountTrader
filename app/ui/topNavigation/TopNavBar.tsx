@@ -8,19 +8,19 @@ const TopNavBar: React.FC = () => {
         <nav className="bg-gray-800 text-white p-4">
             <ul className="flex justify-center space-x-4">
                 <li className="hover:text-gray-300">
-                    <Link href="/orders">Orders</Link>
+                    <Link href="/dashboard/orders">Orders</Link>
                 </li>
                 <li className="hover:text-gray-300">
-                    <Link href="/portfolio">Portfolio</Link>
+                    <Link href="/dashboard/portfolio">Portfolio</Link>
                 </li>
                 <li className="hover:text-gray-300">
-                    <Link href="/holdings">Holdings</Link>
+                    <Link href="/dashboard/holdings">Holdings</Link>
                 </li>
                 <li className="hover:text-gray-300">
                     <Link href="/dashboard/accounts">Accounts</Link>
                 </li>
                 <li className="hover:text-gray-300">
-                    <Link href="/funds">Funds</Link>
+                    <Link href="/dashboard/funds">Funds</Link>
                 </li>
             </ul>
         </nav>

@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
             const checkSession = () => {
-                const sessionUser = sessionStorage.getItem('user');
+                const sessionUser = localStorage.getItem('user');
                 if (sessionUser) {
                     setUser(JSON.parse(sessionUser));
                 } else {
@@ -37,13 +37,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = (userData: UserData) => {
         setUser(userData);
-        sessionStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userData));
         router.push('/dashboard');
     };
 
     const logout = () => {
         setUser(null);
-        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
         router.push('/auth/login');
     };
 

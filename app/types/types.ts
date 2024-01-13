@@ -10,12 +10,12 @@ export type UserLoginDetails = {
 };
 
 export type UserData = {
-    userId: number,
-    userName: string,
-    jwtToken: number;
+    user_id: number,
+    username: string,
 }
 
 export type AccountDetails = {
-    username: string;
-    userId: string;
+    upstoxUsername: string;
+    upstoxUserId: string;
 };
+

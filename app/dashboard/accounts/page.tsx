@@ -1,17 +1,14 @@
 // pages/Accounts.tsx or wherever you're using the AccountList component
 'use client'
-import React, { useState } from 'react';
+import React from 'react';
 import AccountList from '@/ui/topNavigation/AccountList';
-import {AccountDetails} from "@/types/types";
 import {getAuthUrl} from "@/lib/authService";
+import {useAccounts} from "@/contexts/AccountsContext";
+import accountList from "@/ui/topNavigation/AccountList";
 
 const AccountsPage: React.FC = () => {
-    // Replace this with actual state management logic
-    const [accounts, setAccounts] = useState<AccountDetails[]>([
-        { username: 'User1', userId: '001' },
-        { username: 'User2', userId: '002' },
-        // ... more accounts
-    ]);
+
+    const { accountsDetails , refreshAccountsDetails } = useAccounts();
 
     const handleAddUser = async () => {
         try {
@@ -19,6 +16,7 @@ const AccountsPage: React.FC = () => {
             if (url) {
                 console.log(url);
                 window.open(url)
+                refreshAccountsDetails();
             } else {
                 console.error('Authentication URL could not be retrieved.');
             }
@@ -28,13 +26,13 @@ const AccountsPage: React.FC = () => {
     };
 
     const handleLogout = (userId: string) => {
-        setAccounts(prevAccounts => prevAccounts.filter(account => account.userId !== userId));
+
     };
 
     return (
         <div>
             <h1>Accounts</h1>
-            <AccountList accounts={accounts} onAddUser={handleAddUser} onLogout={handleLogout} />
+            <AccountList accounts={accountsDetails} onAddUser={handleAddUser} onLogout={handleLogout} />
         </div>
     );
 };

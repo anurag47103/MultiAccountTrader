@@ -53,9 +53,7 @@ export const loginUser = async ({email, password, login }: UserLoginDetails & {l
             }
 );
 
-        console.log('Login successful:', response.data.userName);
-        console.log(response)
-
+        console.log('Login successful:', response.data.username);
 
         login(response.data);
     } catch (error: any) {

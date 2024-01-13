@@ -1,9 +1,9 @@
 // dashboard/layout.tsx
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '../globals.css'
 import { StockViewWrapper } from "@/ui/sideNavigation/StockViewWrapper";
 import TopNavBar from "@/ui/topNavigation/TopNavBar";
+import {AccountsProvider} from "@/contexts/AccountsContext";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,7 +31,9 @@ export default function RootLayout({
                 <div className="flex flex-1">
                     <div className="w-80 bg-gray-800 h-full" /> {/* Empty div for sidebar space */}
                     <div className="flex-1 p-4">
-                        {children} {/* Main content */}
+                        <AccountsProvider>
+                            {children} {/* Main content */}
+                        </AccountsProvider>
                     </div>
                 </div>
             </div>

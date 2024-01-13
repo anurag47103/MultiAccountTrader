@@ -1,6 +1,6 @@
 // lib/useRequireAuth.ts
 import { useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
 const useRequireAuth = () => {

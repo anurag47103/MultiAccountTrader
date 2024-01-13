@@ -13,14 +13,23 @@ interface AccountListProps {
     onLogout: (userId: string) => void;
 }
 
-const AccountList: React.FC<AccountListProps> = ({ accounts, onAddUser, onLogout }) => {
+const AccountList = ({ accounts , onAddUser, onLogout } : AccountListProps) => {
+    if(accounts === undefined) {
+        console.log('accounts is undefined')
+        return <></>;
+    }
+
+    console.log(typeof accounts, Array.isArray(accounts), accounts.toString())
+    // accounts.map(account => {
+    //     account.upstoxUsername;
+    // })
     return (
         <div>
             <ul>
                 {accounts.map(account => (
-                    <li key={account.userId} className="flex justify-between items-center p-2 border-b">
-                        <span>{account.username} (ID: {account.userId})</span>
-                        <button onClick={() => onLogout(account.userId)} className="bg-red-500 text-white px-4 py-2 rounded">
+                    <li key={account.upstoxUserId} className="flex justify-between items-center p-2 border-b">
+                        <span>{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
+                        <button onClick={() => onLogout(account.upstoxUserId)} className="bg-red-500 text-white px-4 py-2 rounded">
                             Logout
                         </button>
                     </li>
