@@ -5,8 +5,11 @@ import Link from 'next/link';
 
 const TopNavBar: React.FC = () => {
     return (
-        <nav className="bg-gray-800 text-white p-4">
-            <ul className="flex justify-center space-x-4">
+        <nav className="dark:text-white p-4">
+            <ul className="flex justify-evenly space-x-4">
+                <li className="hover:text-gray-300">
+                    <Link href="/dashboard/placeOrders">Place Orders</Link>
+                </li>
                 <li className="hover:text-gray-300">
                     <Link href="/dashboard/orders">Orders</Link>
                 </li>

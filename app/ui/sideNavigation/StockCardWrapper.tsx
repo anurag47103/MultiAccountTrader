@@ -3,29 +3,37 @@
 import React, { useState, useEffect } from 'react';
 import StockCard from './StockCard';
 import { initializeWebSocket } from '../../lib/marketFeed';
-import { StockUpdate } from '../../types/websocket';
-
-const initialStockArray = [
-    { symbol: 'INDUSINDBK', exchange: 'NSE EQ', currentPrice: 1598.95, change: -11.60, changePercentage: -0.72 },
-    { symbol: 'IDFC', exchange: 'NSE EQ', currentPrice: 126.65, change: 1.65, changePercentage: 1.32 },
-];
-
-const initialStockMap = new Map(initialStockArray.map(stock => [stock.symbol, stock]));
+import {StockUpdate, StockUpdateWithName} from '../../types/websocket';
+import {useWatchlist} from "@/contexts/WatchlistContext";
+import {WatchlistItem} from "@/types/types";
+import {useStocks} from "@/contexts/StocksContext";
 
 const StockCardWrapper: React.FC = () => {
-    const [stockMap, setStockMap] = useState<Map<string, StockUpdate>>(initialStockMap);
+
+    const {stockDetailsMap , refreshStockDetails} = useStocks();
+    const [stockMap, setStockMap] =
+        useState<Map<string, StockUpdateWithName>>(new Map<string, StockUpdateWithName>());
 
     useEffect(() => {
-        // Initialize WebSocket connection and provide a callback to update state
+        setStockMap(stockDetailsMap);
         try {
             const ws = initializeWebSocket('ws://localhost:8080',
-                (update) => {
+                (update : StockUpdate[]) => {
 
-                    setStockMap((previousStockMap) : Map<string, StockUpdate>  => {
+                    setStockMap((previousStockMap : Map<string, StockUpdateWithName>) : Map<string, StockUpdateWithName>  => {
+
                         const newStockMap = new Map(previousStockMap);
-                        update.forEach((item : StockUpdate)=> {
-                            console.log("map updated");
-                            newStockMap.set(item.symbol, item);
+
+                        update.forEach((stockUpdate : StockUpdate)=> {
+                            const stock = stockDetailsMap.get(stockUpdate.instrument_key);
+
+                            if(stock !== undefined) {
+                                const newItem: StockUpdateWithName = {name: stock.name, ...stockUpdate};
+                                newStockMap.set(stockUpdate.instrument_key, newItem);
+                            }
+                            else {
+                                console.log('new stock undefined')
+                            }
                         });
                         return newStockMap;
                     });
@@ -40,15 +48,15 @@ const StockCardWrapper: React.FC = () => {
         catch (e) {
             console.log('websocket connection error');
         }
-
-    }, []);
+    }, [stockDetailsMap]);
 
     return (
         <div>
             {[...stockMap.values()].map(data => (
                 <StockCard
-                    key={data.symbol}
-                    symbol={data.symbol}
+                    name={data.name}
+                    key={data.instrument_key}
+                    symbol={data.instrument_key}
                     exchange={data.exchange}
                     currentPrice={data.currentPrice}
                     change={data.change}

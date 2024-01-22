@@ -19,3 +19,21 @@ export type AccountDetails = {
     upstoxUserId: string;
 };
 
+export type CSVDetails = {
+    instrument_key: string,
+    name: string,
+    last_price: number,
+    exchange: number
+}
+
+export interface WatchlistItem {
+    instrument_key: string;
+}
+
+export interface StockDetails {
+    name: string;
+    exchange: string;
+    price: number;
+    change: number;
+    instrument_key: string;
+}

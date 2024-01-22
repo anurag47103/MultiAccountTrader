@@ -4,6 +4,9 @@ import { Inter } from 'next/font/google'
 import { StockViewWrapper } from "@/ui/sideNavigation/StockViewWrapper";
 import TopNavBar from "@/ui/topNavigation/TopNavBar";
 import {AccountsProvider} from "@/contexts/AccountsContext";
+import {StocksProvider} from "@/contexts/StocksContext";
+import {AuthProvider} from "@/contexts/AuthContext";
+import {WatchlistProvider} from "@/contexts/WatchlistContext";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,25 +21,27 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <div className={inter.className}>
-            <div className="flex flex-col h-screen">
-                <div className="flex w-full">
-                    <div className="w-80 bg-gray-800">
-                        <StockViewWrapper />
-                    </div>
-                    <div className="flex-1">
-                        <TopNavBar />
+        <AuthProvider>
+            <WatchlistProvider>
+                <AccountsProvider>
+                <div className={`${inter.className} dark:bg-gray-800 h-screen`}>
+                    <div className="flex-row">
+                        <div className="flex">
+                            <StocksProvider>
+                                <StockViewWrapper/>
+                            </StocksProvider>
+                            <div className="flex-1">
+                                <TopNavBar/>
+                                {children}
+                            </div>
+                        </div>
+                        <div className="flex">
+
+                        </div>
                     </div>
                 </div>
-                <div className="flex flex-1">
-                    <div className="w-80 bg-gray-800 h-full" /> {/* Empty div for sidebar space */}
-                    <div className="flex-1 p-4">
-                        <AccountsProvider>
-                            {children} {/* Main content */}
-                        </AccountsProvider>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </AccountsProvider>
+            </WatchlistProvider>
+        </AuthProvider>
     )
 }

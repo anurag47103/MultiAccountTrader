@@ -2,15 +2,16 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import {getLocalStorageWithExpiry, setLocalStorageWithExpiry} from "@/lib/utils";
 
 interface AuthContextType {
-    user: any;
+    user: UserData | null;
     login: (userData: any) => void;
     logout: () => void;
 }
 
 interface UserData {
-    userId: number;
+    user_id: number;
     userName: string;
     jwtToken: string; // Assuming jwtToken should be a string
 }
@@ -23,11 +24,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
             const checkSession = () => {
-                const sessionUser = localStorage.getItem('user');
+                const sessionUser = getLocalStorageWithExpiry('user');
+
                 if (sessionUser) {
                     setUser(JSON.parse(sessionUser));
                 } else {
-                    console.log('authprovider: user not loggedin')
+                    console.log('AuthProvider: User not loggedIn')
                     router.push('/auth/login');
                 }
             };
@@ -37,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = (userData: UserData) => {
         setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
+        setLocalStorageWithExpiry('user', JSON.stringify(userData), 24);
         router.push('/dashboard');
     };
 

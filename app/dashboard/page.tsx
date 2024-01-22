@@ -1,13 +1,7 @@
-'use client'
 
-import {useEffect} from "react";
 
-export default async function Home() {
 
-  useEffect(() => {
-
-  }, []);
-
+export default function Home() {
   return (
     <main>
 

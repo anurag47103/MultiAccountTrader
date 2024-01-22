@@ -51,7 +51,7 @@ export const loginUser = async ({email, password, login }: UserLoginDetails & {l
             {
                 withCredentials: true // Necessary for cookies to be sent and received
             }
-);
+    );
 
         console.log('Login successful:', response.data.username);
 
@@ -62,5 +62,20 @@ export const loginUser = async ({email, password, login }: UserLoginDetails & {l
 }
 
 export const logoutUser = async ({logout}: {logout: () => {}}) => {
+
     logout();
+}
+
+export const logoutUpstoxAccount = async (upstoxUserId: string) => {
+    try {
+        const logoutUrl : string = `${config.BACKEND_BASE_URL}/auth/logoutUpstoxAccount?upstoxUserId=${upstoxUserId}`;
+
+        const response = await axios.delete(logoutUrl, {
+            withCredentials: true
+        })
+
+        return response;
+    }catch(error) {
+        console.error("Error in logging out upstox account: ", error);
+    }
 }

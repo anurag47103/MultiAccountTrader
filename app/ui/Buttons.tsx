@@ -19,10 +19,13 @@ export function InfoButton() {
         </button>
     );
 }
+interface BuyButtonProps {
+    buyClickHandler: () => void; // This is a function that takes no arguments and returns nothing
+}
+export function BuyButton({ buyClickHandler }: BuyButtonProps) {
 
-export function BuyButton() {
     return (
-        <button className="px-3 py-1 bg-green-500 text-white rounded-lg text-xs flex items-center justify-center">
+        <button className="px-3 py-1 bg-green-500 text-white rounded-lg text-xs flex items-center justify-center" onClick={buyClickHandler}>
             Buy
         </button>
     )

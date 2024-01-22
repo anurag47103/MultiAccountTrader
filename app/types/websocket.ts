@@ -1,6 +1,15 @@
 // types/websocket.ts
 export interface StockUpdate {
-    symbol: string;
+    instrument_key: string;
+    exchange: string;
+    currentPrice: number;
+    change: number;
+    changePercentage: number;
+}
+
+export interface StockUpdateWithName {
+    name: string;
+    instrument_key: string;
     exchange: string;
     currentPrice: number;
     change: number;

@@ -19,27 +19,25 @@ const AccountList = ({ accounts , onAddUser, onLogout } : AccountListProps) => {
         return <></>;
     }
 
-    console.log(typeof accounts, Array.isArray(accounts), accounts.toString())
-    // accounts.map(account => {
-    //     account.upstoxUsername;
-    // })
     return (
-        <div>
-            <ul>
+        <div className="dark:bg-gray-700 shadow-xl rounded-lg p-8 overflow-hidden">
+            <ul className="divide-y divide-gray-600">
                 {accounts.map(account => (
-                    <li key={account.upstoxUserId} className="flex justify-between items-center p-2 border-b">
-                        <span>{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
-                        <button onClick={() => onLogout(account.upstoxUserId)} className="bg-red-500 text-white px-4 py-2 rounded">
+                    <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-600 rounded-md transition duration-150 ease-in-out">
+                        <span className="text-lg font-medium text-gray-300">{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
+                        <button onClick={() => onLogout(account.upstoxUserId)} className="text-sm font-bold bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full shadow transition duration-150 ease-in-out">
                             Logout
                         </button>
                     </li>
                 ))}
             </ul>
-            <button onClick={onAddUser} className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+            <button onClick={onAddUser} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded mt-4 w-full transition duration-150 ease-in-out">
                 Add User
             </button>
         </div>
     );
+
+
 };
 
 export default AccountList;
