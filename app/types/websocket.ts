@@ -14,6 +14,8 @@ export interface StockUpdateWithName {
     currentPrice: number;
     change: number;
     changePercentage: number;
+    lower_circuit_limit: number;
+    upper_circuit_limit: number;
 }
 
 // Adjusting the MarketData interface to reflect the possible undefined properties.

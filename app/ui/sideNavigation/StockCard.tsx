@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import HoverOverlayStockCard from "./HoverOverlayStockCard";
 import {placeOrder} from "@/lib/dashboardService";
+import {useRouter} from "next/navigation";
 
 interface StockCardProps {
     name: string;
@@ -13,24 +14,26 @@ interface StockCardProps {
     changePercentage: number;
 }
 
-const StockCard = React.memo(({
+const StockCard = React.memo(function StockCard ({
                                         name,
                                       symbol,
                                       exchange,
                                       currentPrice,
                                       change,
                                       changePercentage
-                                  }: StockCardProps) => {
+                                  }: StockCardProps) {
     const [isHovered, setIsHovered] = useState(false);
     const priceChangeColor = change < 0 ? 'text-red-500' : 'text-green-500';
+    const router = useRouter();
 
     const buyHandler = async () => {
-       const response = await placeOrder(symbol, 1,0,'MARKET','BUY', 0, 'D', true, 0, 'Day','string');
-       console.log(response);
+       // const response = await placeOrder(symbol, 1,0,'MARKET','BUY', 0, 'D', true, 0, 'Day','string');
+       // console.log(response);
+        router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type='BUY'`, {});
     }
     return (
         <div
-            className="relative bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex justify-between items-center"
+            className="relative border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex justify-between items-center"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

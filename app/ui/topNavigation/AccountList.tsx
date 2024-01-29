@@ -24,7 +24,7 @@ const AccountList = ({ accounts , onAddUser, onLogout } : AccountListProps) => {
             <ul className="divide-y divide-gray-600">
                 {accounts.map(account => (
                     <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-600 rounded-md transition duration-150 ease-in-out">
-                        <span className="text-lg font-medium text-gray-300">{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
+                        <span className="text-lg font-medium dark:text-gray-300">{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
                         <button onClick={() => onLogout(account.upstoxUserId)} className="text-sm font-bold bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full shadow transition duration-150 ease-in-out">
                             Logout
                         </button>

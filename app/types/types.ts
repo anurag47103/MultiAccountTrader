@@ -36,4 +36,6 @@ export interface StockDetails {
     price: number;
     change: number;
     instrument_key: string;
+    lower_circuit_limit: number;
+    upper_circuit_limit: number;
 }

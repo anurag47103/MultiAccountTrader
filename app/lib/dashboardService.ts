@@ -42,7 +42,7 @@ export const  getStockDetails = async (instrument_keys: string)  => {
 
         return response.data;
     } catch (error) {
-        console.error('Error fetching CSV data:', error);
+        console.error('Error fetching Stock Details: ', error);
         throw error;
     }
 }
@@ -58,20 +58,25 @@ export async function placeOrder(
     disclosed_quantity: number = 0,
     validity: string = 'DAY',
     tag: string = 'string') {
+    const placeOrderUrl: string = `${config.BACKEND_BASE_URL}/dashboard/placeOrder`;
+
+    const orderData = {
+        instrument_key: instrument_key,
+        quantity: quantity,
+        price: price,
+        order_type: order_type,
+        transaction_type: transaction_type,
+        trigger_price: trigger_price,
+        product: product,
+        is_amo: is_amo,
+        disclosed_quantity: disclosed_quantity,
+        validity: validity,
+        tag: tag,
+    };
+
     try {
-        const placeOrderUrl : string = `${config.BACKEND_BASE_URL}/dashboard/placeOrder?instrument_key=${instrument_key}&
-        quantity=${quantity}&
-        price=${price}&
-        order_type=${order_type}&
-        transaction_type=${transaction_type}&
-        trigger_price=${trigger_price}&
-        product=${product}&
-        is_amo=${is_amo}&
-        disclosed_quantity=${disclosed_quantity}&
-        validity=${validity}&
-        tag=${tag}`
-        const response = await axios.get(placeOrderUrl,
-            {withCredentials:true});
+        const response = await axios.post(placeOrderUrl, orderData, { withCredentials: true });
+        return response.data;
     }catch(error) {
         console.log('error in placing order: ', error)
     }
