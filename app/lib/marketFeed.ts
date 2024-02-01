@@ -1,11 +1,12 @@
 import { decodeMessage} from "@/lib/utils";
 import {StockUpdate} from "@/types/websocket";
+import axios from "axios";
 
 export type UpdateFunction = (update : StockUpdate[]) => void;
 
 
 const handleMessage = (event: MessageEvent, updateFunction: UpdateFunction) => {
-    console.log('a message received from web socket')
+    // console.log('a message received from web socket')
     const reader = new FileReader();
     reader.onload = () => {
         try {
@@ -20,6 +21,7 @@ const handleMessage = (event: MessageEvent, updateFunction: UpdateFunction) => {
 
 export const initializeWebSocket = (url: string, updateFunction: UpdateFunction): WebSocket => {
         const ws = new WebSocket(url);
+        ws.onopen = () => {console.log('websocket connected')}
 
         ws.onmessage = (event) => handleMessage(event, updateFunction);
 
