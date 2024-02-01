@@ -9,20 +9,30 @@ interface FormDataType {
     triggerPrice: number;
     validity: string;
 }
-const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType: string}) => {
+
+enum orderTypes {
+    MARKET = 'MARKET',
+    LIMIT = 'LIMIT',
+    SL_LIMIT = 'SL',
+    SL_MKT = 'SL-M'
+}
+
+const PlaceOrderCard = ({instrument_key, buyOrSell}: {instrument_key: string, buyOrSell: string}) => {
     const { stockDetailsMap } = useStocks();
     const stock = stockDetailsMap.get(instrument_key);
 
     const [formData, setFormData] = useState<FormDataType>({
         quantity: 1,
         price: 0,
-        orderType: 'MARKET',
+        orderType: orderTypes.MARKET,
         triggerPrice: 0,
         validity: 'DAY'
     });
 
     useEffect( () => {
-        setFormData({...formData, orderType:'MARKET', price: 0, triggerPrice: 0})
+        setFormData((previousFormData) => { 
+            return {...previousFormData, orderType:orderTypes.MARKET, price: 0, triggerPrice: 0 };
+        })
     }, [ instrument_key ])
 
 
@@ -31,6 +41,7 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
 
     const handleSubmit = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const response = await placeOrder(
             stock.instrument_key,
             formData.quantity,
@@ -41,7 +52,7 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
             'D',
             true,
             0,
-            'DAY',
+            formData.validity,
             'string'
             );
 
@@ -58,8 +69,8 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
     }
 
     const handlePriceChange = (price: number) => {
-        if(price === 0) handleOrderTypeChange('MARKET');
-        else if(formData.orderType === 'MARKET') handleOrderTypeChange('LIMIT');
+        if(price === 0) handleOrderTypeChange(orderTypes.MARKET);
+        else if(formData.orderType === orderTypes.MARKET || formData.orderType === orderTypes.SL_MKT) handleOrderTypeChange(orderTypes.LIMIT);
 
         setFormData(prevState => {
             return {
@@ -74,11 +85,11 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
     };
 
     const handleOrderTypeChange = (orderType: string) => {
-        if(orderType === 'MARKET') {
+        if(orderType === orderTypes.MARKET || orderType === orderTypes.SL_MKT) {
             setFormData({...formData, price:0, orderType:orderType})
             return;
         }
-        else if(formData.orderType === 'MARKET') {
+        else if(formData.orderType === orderTypes.MARKET || formData.orderType === orderTypes.SL_MKT) {
             setFormData({ ...formData, orderType: orderType, price: parseFloat(stock.currentPrice.toFixed(2))});
             return;
         }
@@ -93,6 +104,7 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
         if(formData.price === 0) return stock.currentPrice * formData.quantity;
         return formData.quantity * formData.price;
     }
+
     const getButtonClassName = (orderType: string) => {
         return formData.orderType === orderType
             ? "py-2 px-4 bg-blue-500 text-white rounded-lg mr-10"
@@ -100,7 +112,7 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
     };
 
     return (
-        <form onSubmit={handleSubmit} className="dark:bg-gray-700 shadow-lg rounded-lg p-4 m-4">
+        <form onSubmit={handleSubmit} className="dark:bg-gray-800 shadow-lg rounded-lg p-4 m-4 max-w-2xl mx-auto border border-gray-700">
             <div className="flex justify-between items-center mb-1">
                 <div className="text-xl dark:text-white font-semibold mt-1">{stock?.name}</div>
                 <div className={`text-lg text-right dark:text-white font-semibold text-gray-900 mt-1`}>
@@ -112,8 +124,8 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
                 <span
                     className={`text-sm font-semibold ${priceChangeColor}`}>{stock?.change.toFixed(2)} ({stock?.changePercentage.toFixed(2)}%)</span>
             </div>
-            <div className="border-t border-gray-200 pt-4">
-                <div className="flex items-center justify-between my-4">
+            <div className="border-t border-gray-400">
+                <div className="flex items-center justify-between my-6">
                     <div>
                         <label htmlFor="quantity" className="text-m dark:text-white font-semibold">Quantity</label>
                         <div className="flex items-center mt-2">
@@ -129,7 +141,7 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
                                 type="number"
                                 value={formData.quantity}
                                 onChange={ (e) => handleQuantityChange(parseFloat(e.target.value)) }
-                                className="dark:bg-gray-800 dark:text-white mx-2 w-16 h-8 text-center border-gray-300 outline-none"
+                                className="dark:bg-gray-900 dark:text-white mx-2 w-16 h-8 text-center border-gray-300 outline-none"
                             />
                             <button
                                 type="button"
@@ -139,13 +151,13 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="price" className="text-m font-semibold ml-3">Price</label>
+                        <label htmlFor="price" className="text-m dark:text-white font-semibold ml-3">Price</label>
                         <div className="relative flex items-center mt-1">
                             <span
                                 className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-sm text-gray-500">₹</span>
                             <input id="price"
                                    type="number"
-                                   className="dark:bg-gray-800 dark:text-white mx-2 w-28 h-8 text-center border-gray-300 outline-none pl-8 pr-2" // Adjust the pl value if necessary
+                                   className="dark:bg-gray-900 dark:text-white mx-2 w-28 h-8 text-center border-gray-300 outline-none pl-8 pr-2" // Adjust the pl value if necessary
                                    placeholder="Market"
                                    value={formData.price === 0 ? '' : formData.price}
                                    onChange={(e) => {
@@ -157,48 +169,47 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
                     </div>
                 </div>
             </div>
-            <div className="border-t border-gray-200 pt-4">
+            <div className="border-t border-gray-400 pt-4">
                 <div className="flex">
                     <button
                         type="button"
-                        onClick={() => handleOrderTypeChange('MARKET')}
-                        className={getButtonClassName('MARKET')}
+                        onClick={() => handleOrderTypeChange(orderTypes.MARKET)}
+                        className={getButtonClassName(orderTypes.MARKET)}
                     >
                         Market
                     </button>
                     <button
                         type="button"
-                        onClick={() => handleOrderTypeChange('LIMIT')}
-                        className={getButtonClassName('LIMIT')}
+                        onClick={() => handleOrderTypeChange(orderTypes.LIMIT)}
+                        className={getButtonClassName(orderTypes.LIMIT)}
                     >
                         Limit
                     </button>
                     <button
                         type="button"
-                        onClick={() => handleOrderTypeChange('SL LIMIT')}
-                        className={getButtonClassName('SL LIMIT')}
+                        onClick={() => handleOrderTypeChange(orderTypes.SL_LIMIT)}
+                        className={getButtonClassName(orderTypes.SL_LIMIT)}
                     >
                         SL Limit
                     </button>
                     <button
                         type="button"
-                        onClick={() => handleOrderTypeChange('SL MARKET')}
-                        className={getButtonClassName('SL MARKET')}
+                        onClick={() => handleOrderTypeChange(orderTypes.SL_MKT)}
+                        className={getButtonClassName(orderTypes.SL_MKT)}
                     >
                         SL Market
                     </button>
                 </div>
 
-                {/* Conditional rendering for Trigger Price input */}
-                {(formData.orderType === 'SL Limit' || formData.orderType === 'SL Mkt') && (
-                    <div className="mt-4">
-                        <label htmlFor="price" className="text-m font-semibold ml-3">Trigger Price</label>
+                {(formData.orderType === orderTypes.SL_LIMIT || formData.orderType === orderTypes.SL_MKT) && (
+                    <div className="mt-6">
+                        <label htmlFor="price" className="text-m dark:text-white font-semibold ml-3">Trigger Price</label>
                         <div className="relative flex items-center mt-1">
                             <span
                                 className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-sm text-gray-500">₹</span>
                             <input id="triggerPrice"
                                    type="number"
-                                   className="dark:bg-gray-800 dark:text-white mx-2 w-28 h-8 text-center border-gray-300 outline-none pl-8 pr-2"
+                                   className="dark:bg-gray-900 dark:text-white mx-2 w-28 h-8 text-center border-gray-300 outline-none pl-8 pr-2"
                                    placeholder=""
                                    value={formData.triggerPrice == 0 ? '' : formData.triggerPrice}
                                    onChange={(e) => {
@@ -208,26 +219,28 @@ const BuyCard = ({instrument_key, orderType}: {instrument_key: string, orderType
                         </div>
                     </div>
                 )}
-                <div className="flex flex-col">
-                    <label htmlFor="validity" className="mb-1 text-sm font-semibold text-gray-700">Validity</label>
-                    <select
-                        id="validity"
-                        name="validity"
-                        value={formData.validity}
-                        onChange={(e) => handleValidityChange(e.target.value)}
-                        className="dark:bg-gray-800 dark:text-white text-center border border-gray-300 rounded-md"
-                    >
-                        <option value="Day">Day</option>
-                        <option value="IOC">IOC</option>
-                    </select>
-                </div>
+                <div className="flex flex-col mt-4">
+                <label htmlFor="price" className="text-m dark:text-white font-semibold">Validity</label>
+                <select
+                    id="validity"
+                    name="validity"
+                    value={formData.validity}
+                    onChange={(e) =>{handleValidityChange(e.target.value)}}
+                    className="dark:bg-gray-900 dark:text-white w-28 h-8 mt-2 pl-2 text-center border-gray-300 outline-none bg-white"
+                >
+                    <option value="Day">Day</option>
+                    {formData.orderType !== orderTypes.MARKET && formData.orderType !== orderTypes.SL_MKT && <option value="IOC">IOC</option>}
+                </select>
             </div>
-            <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-4">
-                <div className="text-m">Required: ₹{calculateRequired().toFixed(2)}</div>
-                <button className="py-2 px-6 bg-green-500 text-white rounded-lg">Buy order</button>
+
+
+            </div>
+            <div className="flex justify-between items-center border-t border-gray-400 pt-4 mt-4">
+                <div className="text-m dark:text-white">Required: ₹{calculateRequired().toFixed(2)}</div>
+                <button className="py-2 px-6 bg-green-600 text-white rounded-lg">Buy order</button>
             </div>
         </form>
     );
 };
 
-export default BuyCard;
+export default PlaceOrderCard;

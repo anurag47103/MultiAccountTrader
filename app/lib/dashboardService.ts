@@ -2,23 +2,7 @@ import config from "@/config/config";
 import {AccountDetails, CSVDetails, StockDetails, WatchlistItem} from "@/types/types";
 import axios, {AxiosResponse} from "axios";
 
-export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
-    const getUpstoxAccountUrl = `${config.BACKEND_BASE_URL}/dashboard/getUpstoxAccounts`;
-    try {
-        const response  = await axios.get(getUpstoxAccountUrl, {
-            withCredentials: true
-        });
-
-        const accountDetails : AccountDetails[] = response.data.accountDetails;
-
-        return accountDetails;
-    } catch (error) {
-        console.log('error in getting upstox accounts ', error);
-        return [];
-    }
-}
-
-export const geCSVDetails = async (): Promise<CSVDetails[]> => {
+export const getCSVDetails = async (): Promise<CSVDetails[]> => {
     try {
         const getCSVDataUrl = `${config.BACKEND_BASE_URL}/getCSVData`;
         const response  = await axios.get(getCSVDataUrl, {
@@ -32,7 +16,7 @@ export const geCSVDetails = async (): Promise<CSVDetails[]> => {
     }
 };
 
-export const  getStockDetails = async (instrument_keys: string)  => {
+export const getStockDetails = async (instrument_keys: string)  => {
     try {
         const getStockDetailsUrl : string = `${config.BACKEND_BASE_URL}/dashboard/getStockDetails?instrument_key=${instrument_keys}`;
 
@@ -123,4 +107,51 @@ export async function getWatchlistForUser( userId: number)  {
     })
 
     return response.data;
+}
+
+export async function addUpstoxUser( user_id: number, name: string, upstoxId: string, apiKey: string, apiSecret: string) {
+    const addUpstoxUserUrl : string = `${config.BACKEND_BASE_URL}/dashboard/addUpstoxUser`;
+
+    const response = await axios.post(addUpstoxUserUrl, {
+        user_id: user_id,
+        name,
+        upstoxId,
+        apiKey,
+        apiSecret
+    },
+    {withCredentials: true});
+
+    return response.data;
+}
+
+export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
+    const getUpstoxAccountUrl = `${config.BACKEND_BASE_URL}/dashboard/getUpstoxAccounts`;
+    try {
+        const response  = await axios.get(getUpstoxAccountUrl, {
+            withCredentials: true
+        });
+
+        const accountDetails : AccountDetails[] = response.data.accountDetails;
+
+        return accountDetails;
+    } catch (error) {
+        console.log('error in getting upstox accounts ', error);
+        return [];
+    }
+}
+
+export const getAllHoldings = async() => {
+    const getAllHoldingsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllHoldings`;
+
+    try {
+        const response = await axios.get(getAllHoldingsUrl, {
+            withCredentials: true
+        });
+
+        console.log('response from getAllHoldings', response);
+        return response.data;
+    } catch(error) {
+        console.error('Error in getting all HOldings', error);
+        
+    }
 }

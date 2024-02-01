@@ -2,14 +2,14 @@
 
 import {useEffect} from "react";
 import {CSVDetails} from "@/types/types";
-import {geCSVDetails} from "@/lib/dashboardService";
+import {getCSVDetails} from "@/lib/dashboardService";
 import {storeCSVData} from "@/db";
 
 export default function Home() {
   useEffect(() => {
 
     (async () => {
-      const csvData : CSVDetails[] = await geCSVDetails();
+      const csvData : CSVDetails[] = await getCSVDetails();
       storeCSVData(csvData);
     })()
   }, []);

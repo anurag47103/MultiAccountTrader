@@ -1,6 +1,4 @@
-'use client'
-import React, { useState } from 'react';
-import { loginUser } from "@/lib/authService";
+import React from 'react';
 import {AuthProvider, useAuth} from "@/contexts/AuthContext";
 import LoginForm from "@/ui/LoginForm";
 

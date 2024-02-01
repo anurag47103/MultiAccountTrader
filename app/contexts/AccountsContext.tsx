@@ -28,7 +28,6 @@ export const AccountsProvider = ({ children }: { children: ReactNode}) => {
         }
     };
 
-    // Initial fetch of accounts
     useEffect(() => {
         refreshAccountsDetails();
     }, []);

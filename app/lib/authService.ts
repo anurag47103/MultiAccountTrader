@@ -1,10 +1,10 @@
 import axios, {AxiosResponse} from 'axios'
 import config from "@/config/config";
 import {UserLoginDetails, UserRegistrationDetails, UserData} from "@/types/types"
-export const getAuthUrl = async (): Promise<string> => {
+export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 
     try {
-        const getAuthUrl = config.REACT_APP_GET_AUTH_URL;
+        const getAuthUrl = `${config.REACT_APP_GET_AUTH_URL}?upstoxUserId=${upstoxUserId}`;
         console.log(getAuthUrl)
         const response = await axios.get(getAuthUrl, {
             withCredentials: true
@@ -23,7 +23,7 @@ export const getAuthUrl = async (): Promise<string> => {
     }
 };
 
-export const registerUser = async ({ name, email, password }: UserRegistrationDetails): Promise<void> => {
+export const registerUser = async ({ name, email, password }: UserRegistrationDetails): Promise<boolean> => {
     const registerUrl = 'http://localhost:4001/api/v1/auth/register';
 
     try {
@@ -34,48 +34,67 @@ export const registerUser = async ({ name, email, password }: UserRegistrationDe
         });
 
         console.log('Registration successful:', response.data);
+        return true;
     } catch (error: any) {
         console.error('Registration error:', error.message);
+        return false;
     }
 }
 
-export const loginUser = async ({email, password, login }: UserLoginDetails & {login: (userData: UserData) => void}): Promise<void> => {
+export const loginUser = async ({email, password, login }: UserLoginDetails & {login: (userData: UserData) => void}): Promise<boolean> => {
     const loginUrl = 'http://localhost:4001/api/v1/auth/login';
 
     try {
         const response : AxiosResponse<UserData> = await axios.post(loginUrl,
-            {
-                email,
-                password
-            },
-            {
-                withCredentials: true // Necessary for cookies to be sent and received
-            }
-    );
+            { email, password },
+            { withCredentials: true }
+        );
 
-        console.log('Login successful:', response.data.username);
+        if(response.status === 200) {
+            login(response.data);
+            return true;
+        }
 
-        login(response.data);
+        console.error('Error in logging user');
+        return false;
+
     } catch (error: any) {
         console.error('Login error:', error.message);
+        return false;
     }
 }
 
 export const logoutUser = async ({logout}: {logout: () => {}}) => {
-
     logout();
 }
 
 export const logoutUpstoxAccount = async (upstoxUserId: string) => {
     try {
-        const logoutUrl : string = `${config.BACKEND_BASE_URL}/auth/logoutUpstoxAccount?upstoxUserId=${upstoxUserId}`;
+        const logoutUrl : string = `${config.BACKEND_BASE_URL}/auth/logoutUpstoxAccount`;
 
-        const response = await axios.delete(logoutUrl, {
-            withCredentials: true
-        })
+        const response = await axios.post(logoutUrl,
+            {upstoxUserId: upstoxUserId} ,
+            {withCredentials: true}
+            );
 
         return response;
     }catch(error) {
         console.error("Error in logging out upstox account: ", error);
     }
 }
+
+export const removeUpstoxAccount = async (upstoxUserId: string) => {
+    try {
+        const removeUrl : string = `${config.BACKEND_BASE_URL}/dashboard/removeUpstoxUser`;
+
+        const response = await axios.post(removeUrl, 
+            {upstoxUserId},
+            {withCredentials: true}
+        );
+
+        return response;
+    } catch(error) {
+        console.error("Error in removing the upstox account: ", error);
+    }
+}
+

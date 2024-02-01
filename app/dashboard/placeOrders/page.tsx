@@ -1,6 +1,6 @@
 'use client'
 
-import BuyCard from "@/ui/BuyCard";
+import PlaceOrderCard from "@/ui/PlaceOrderCard";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {StocksProvider} from "@/contexts/StocksContext";
@@ -14,9 +14,8 @@ const PlaceOrderPage = () => {
     const type = searchParams.get('type');
 
     useEffect(() => {
-        if (instrumentKey) {
-            setSelectedStock(instrumentKey);
-        }
+        if (instrumentKey) setSelectedStock(instrumentKey);
+
         if(selectedType) setSelectedType(selectedType)
 
     }, [instrumentKey, selectedType]);
@@ -24,9 +23,8 @@ const PlaceOrderPage = () => {
     return (
         <>
             <StocksProvider>
-                <BuyCard instrument_key={selectedStock} orderType={selectedType}/>
+                <PlaceOrderCard instrument_key={selectedStock} buyOrSell={selectedType}/>
             </StocksProvider>
-
         </>
     );
 };

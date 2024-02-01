@@ -24,7 +24,7 @@ export default function RootLayout({
         <AuthProvider>
             <WatchlistProvider>
                 <AccountsProvider>
-                <div className={`${inter.className} dark:bg-gray-800 h-screen`}>
+                <div className={`${inter.className}  h-screen`}>
                     <div className="flex-row">
                         <div className="flex">
                             <StocksProvider>

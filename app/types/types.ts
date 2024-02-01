@@ -17,6 +17,7 @@ export type UserData = {
 export type AccountDetails = {
     upstoxUsername: string;
     upstoxUserId: string;
+    isLoggedIn: boolean;
 };
 
 export type CSVDetails = {

@@ -10,14 +10,12 @@ import {initializeWebSocket} from "@/lib/marketFeed";
 
 interface StockContextType {
     stockDetailsMap: Map<string, StockUpdateWithName>,
-    baseStockMap: Map<string, StockUpdateWithName>,
-    refreshBaseStockMap: () =>  void,
+    baseStockMap: Map<string, StockUpdateWithName>
 }
 
 export const StocksContext : Context<StockContextType> = createContext<StockContextType>({
     stockDetailsMap: new Map<string, StockUpdateWithName>(),
     baseStockMap: new Map<string, StockUpdateWithName>(),
-    refreshBaseStockMap: () => {}
 });
 
 export const useStocks = () => useContext(StocksContext);
@@ -34,7 +32,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
 
     const { watchlist } = useWatchlist();
 
-    const refreshBaseStockMap = async () => {
+    async function refreshBaseStockMap( watchlist: string[] ) {
         if(!watchlist || watchlist.length < 1) {
             console.error('Watchlist is undefined in refreshStockDetails')
             return stockDetailsMap;
@@ -75,27 +73,26 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
 
     useEffect( () => {
         (async() => {
-            await refreshBaseStockMap();
+            await refreshBaseStockMap(watchlist);
         })();
-    },[ watchlist ]);
+    }, [ watchlist ] );
 
     useEffect(() => {
+        if(!stockDetailsMap || stockDetailsMap.size < 1 ) {
+            return;
+        }
         try {
             wsRef.current = initializeWebSocket('ws://localhost:8080',
-            // const ws = initializeWebSocket('ws://localhost:8080',
                 (update: StockUpdate[]) => {
-                    // console.log(stockDetailsMap, watchlist);
 
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {
 
                         const newStockMap = new Map(previousStockDetailsMap);
 
                         update.forEach((stockUpdate: StockUpdate) => {
-                            // console.log('stockUpdate: ', stockUpdate);
                             const stock = stockDetailsMap.get(stockUpdate.instrument_key);
 
                             if (stock !== undefined) {
-                                console.log('new stock defined.', stock, stockUpdate)
                                 const newItem: StockUpdateWithName = {
                                     name: stock.name, 
                                     upper_circuit_limit: stock.upper_circuit_limit,
@@ -104,7 +101,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
                                 };
                                 newStockMap.set(stockUpdate.instrument_key, newItem);
                             } else {
-                                // console.error('new stock undefined')
+
                             }
                         });
                         return newStockMap;
@@ -127,7 +124,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
     }, [baseStockMap])
 
     return (
-        <StocksContext.Provider value={{stockDetailsMap, baseStockMap, refreshBaseStockMap}}>
+        <StocksContext.Provider value={{stockDetailsMap, baseStockMap}}>
             {children}
         </StocksContext.Provider>
     )

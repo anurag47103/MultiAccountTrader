@@ -26,7 +26,7 @@ const SearchBar = () => {
         <div className="flex flex-col items-center justify-center mb-3 mx-2">
             <div className="relative w-full max-w-md">
                 <div
-                    className="flex items-center border-2 border-gray-200 dark:bg-gray-200 rounded-2xl overflow-hidden shadow-sm focus-within:ring">
+                    className="flex items-center border-2 border-gray-200 dark:bg-searchBarDark rounded-2xl overflow-hidden shadow-sm focus-within:ring">
                     <div className="pl-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -38,7 +38,7 @@ const SearchBar = () => {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-10 dark:bg-gray-200 pl-2 pr-10 py-2 rounded-full text-sm dark:text-black focus:outline-none dark:text-focus:outline-none"
+                        className="w-full h-10 dark:bg-searchBarDark pl-2 pr-10 py-2 rounded-full text-sm dark:text-black focus:outline-none dark:text-focus:outline-none"
                         placeholder="Search "
                     />
                     {searchTerm && (
