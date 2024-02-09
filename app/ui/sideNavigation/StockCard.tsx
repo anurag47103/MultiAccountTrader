@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import HoverOverlayStockCard from "./HoverOverlayStockCard";
-import {placeOrder} from "@/lib/dashboardService";
 import {useRouter} from "next/navigation";
 
 interface StockCardProps {
@@ -22,14 +21,17 @@ const StockCard = React.memo(function StockCard ({
                                       change,
                                       changePercentage
                                   }: StockCardProps) {
+
     const [isHovered, setIsHovered] = useState(false);
     const priceChangeColor = change < 0 ? 'text-red-500' : 'text-green-500';
     const router = useRouter();
 
     const buyHandler = async () => {
-       // const response = await placeOrder(symbol, 1,0,'MARKET','BUY', 0, 'D', true, 0, 'Day','string');
-       // console.log(response);
         router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type='BUY'`, {});
+    }
+
+    const sellHandler = async () => {
+        router.push(`/dashboard/placeOrder?instrument_key=${symbol}&type='SELL'`);
     }
     return (
         <div
@@ -52,7 +54,7 @@ const StockCard = React.memo(function StockCard ({
                         </div>
                     </div>
                 }
-                {isHovered && <HoverOverlayStockCard buyClickHandler={buyHandler}/>}
+                {isHovered && <HoverOverlayStockCard buyClickHandler={buyHandler} sellClickHandler={sellHandler}/>}
             </div>
         </div>
     );

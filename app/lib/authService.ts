@@ -24,7 +24,8 @@ export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 };
 
 export const registerUser = async ({ name, email, password }: UserRegistrationDetails): Promise<boolean> => {
-    const registerUrl = 'http://localhost:4001/api/v1/auth/register';
+    const registerUrl = `${config.BACKEND_BASE_URL}/auth/register`;
+    console.log(registerUrl)
 
     try {
         const response = await axios.post(registerUrl, {
@@ -42,7 +43,7 @@ export const registerUser = async ({ name, email, password }: UserRegistrationDe
 }
 
 export const loginUser = async ({email, password, login }: UserLoginDetails & {login: (userData: UserData) => void}): Promise<boolean> => {
-    const loginUrl = 'http://localhost:4001/api/v1/auth/login';
+    const loginUrl = `${config.BACKEND_BASE_URL}/auth/login`;
 
     try {
         const response : AxiosResponse<UserData> = await axios.post(loginUrl,

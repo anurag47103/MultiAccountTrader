@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const StockViewWrapper = () => {
     return (
-        <div className="flex flex-col h-screen w-80">
+        <div className="flex flex-col h-screen w-80 min-w-80">
             <Image
                 src={'/logoDark10.svg'}
                 alt={'logo'}

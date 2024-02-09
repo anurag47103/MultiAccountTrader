@@ -30,7 +30,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-color: transparent; /* Or any color */
+  background-color: transparent;
 }
 
 input[type='number']::-webkit-outer-spin-button,
