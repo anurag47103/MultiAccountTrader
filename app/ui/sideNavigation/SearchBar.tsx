@@ -26,7 +26,7 @@ const SearchBar = () => {
         <div className="flex flex-col items-center justify-center mb-3 mx-2">
             <div className="relative w-full max-w-md">
                 <div
-                    className="flex items-center border-2 border-gray-200 dark:bg-searchBarDark rounded-2xl overflow-hidden shadow-sm focus-within:ring">
+                    className="flex items-center border-2 border-gray-200 bg-white dark:bg-searchBarDark rounded-2xl overflow-hidden shadow-sm focus-within:ring">
                     <div className="pl-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -46,13 +46,11 @@ const SearchBar = () => {
                             onClick={() => setSearchTerm('')}
                             className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="currentColor">
-                                <path fillRule="evenodd"
-                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.707 6.707a1 1 0 011.414-1.414L10 7.586l1.879-1.879a1 1 0 112.828 2.828L12.414 10l1.879 1.879a1 1 0 01-1.414 1.414L10 11.414l-1.879 1.879a1 1 0 01-2.828-2.828L7.586 10 5.707 8.121a1 1 0 010-1.414z"
-                                      clipRule="evenodd"/>
-                            </svg>
-                        </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path 
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+                        </svg>
+                      </button>
                     )}
                 </div>
                 {searchTerm && <SearchList results={results}/>}

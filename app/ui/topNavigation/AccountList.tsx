@@ -62,10 +62,10 @@ const AccountList = () => {
     }
 
     return (
-        <div className="dark:bg-gray-800 shadow-2xl rounded-lg p-8 overflow-hidden border border-gray-700 max-w-2xl mx-auto">
+        <div className="text-gray-800 dark:bg-gray-800 shadow-2xl rounded-lg p-8 overflow-hidden border border-gray-300 dark:border-gray-700 max-w-2xl mx-auto">
             <ul className="divide-y divide-gray-600">
                 {accountsDetails.map(account => (
-                    <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-700 rounded-md transition duration-150 ease-in-out px-3">
+                    <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out px-3">
                         <span className="text-lg font-medium dark:text-gray-300">{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
                         <div className="ml-auto"></div>
                         {account.isLoggedIn ? 

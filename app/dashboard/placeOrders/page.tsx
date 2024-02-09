@@ -3,7 +3,6 @@
 import PlaceOrderCard from "@/ui/PlaceOrderCard";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
-import {StocksProvider} from "@/contexts/StocksContext";
 
 const PlaceOrderPage = () => {
 
@@ -22,9 +21,7 @@ const PlaceOrderPage = () => {
 
     return (
         <>
-            <StocksProvider>
-                <PlaceOrderCard instrument_key={selectedStock} buyOrSell={selectedType}/>
-            </StocksProvider>
+            <PlaceOrderCard instrument_key={selectedStock} buyOrSell={selectedType}/>
         </>
     );
 };

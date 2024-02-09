@@ -7,6 +7,7 @@ import {getStockDetails} from "@/lib/dashboardService";
 import {generateInstrumentKeysString} from "@/lib/utils";
 import {StockDetails} from "@/types/types";
 import {initializeWebSocket} from "@/lib/marketFeed";
+import config from "@/config/config";
 
 interface StockContextType {
     stockDetailsMap: Map<string, StockUpdateWithName>,
@@ -82,7 +83,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             return;
         }
         try {
-            wsRef.current = initializeWebSocket('ws://localhost:8080',
+            wsRef.current = initializeWebSocket(`ws://${config.BACKEND_BASE_URL}:8080`,
                 (update: StockUpdate[]) => {
 
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {

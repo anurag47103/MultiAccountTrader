@@ -151,7 +151,37 @@ export const getAllHoldings = async() => {
         console.log('response from getAllHoldings', response);
         return response.data;
     } catch(error) {
-        console.error('Error in getting all HOldings', error);
-        
+        console.error('Error in getting all Holdings', error);
     }
 }
+
+export const getAllOrders  = async() => {
+    const getAllOrdersUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllOrders`;
+
+    try {
+        const response = await axios.get(getAllOrdersUrl, {
+            withCredentials: true
+        });
+
+        console.log('response from getAllOrders: ', response.data);
+        return response.data;
+    } catch(error) {
+        console.error('Error in getting all Orders : ', error);
+    }
+}
+
+export const getAllPositions = async() => {
+    const getAllPositionsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllPositions`;
+
+    try {
+        const response = await axios.get(getAllPositionsUrl, {
+            withCredentials: true
+        });
+
+        console.log('response from getAllPositions', response);
+        return response.data;
+    } catch(error) {
+        console.error('Error in getting all Positions', error);
+    }
+}
+

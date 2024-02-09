@@ -24,22 +24,22 @@ export default function RootLayout({
         <AuthProvider>
             <WatchlistProvider>
                 <AccountsProvider>
-                <div className={`${inter.className}  h-screen`}>
-                    <div className="flex-row">
-                        <div className="flex">
-                            <StocksProvider>
-                                <StockViewWrapper/>
-                            </StocksProvider>
-                            <div className="flex-1">
-                                <TopNavBar/>
-                                {children}
+                    <StocksProvider>
+                        <div className={`${inter.className}  h-screen`}>
+                            <div className="flex-row">
+                                <div className="flex">
+                                        <StockViewWrapper/>
+                                    <div className="flex-1">
+                                        <TopNavBar/>
+                                        {children}
+                                    </div>
+                                </div>
+                                <div className="flex">
+
+                                </div>
                             </div>
                         </div>
-                        <div className="flex">
-
-                        </div>
-                    </div>
-                </div>
+                    </StocksProvider>
                 </AccountsProvider>
             </WatchlistProvider>
         </AuthProvider>

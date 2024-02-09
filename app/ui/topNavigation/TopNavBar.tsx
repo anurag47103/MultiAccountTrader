@@ -15,7 +15,7 @@ const TopNavBar: React.FC = () => {
                 {[
                     { href: "/dashboard/placeOrders", label: "Place Orders" },
                     { href: "/dashboard/orders", label: "Orders" },
-                    { href: "/dashboard/portfolio", label: "Portfolio" },
+                    { href: "/dashboard/positions", label: "Positions" },
                     { href: "/dashboard/holdings", label: "Holdings" },
                     { href: "/dashboard/accounts", label: "Accounts" },
                     { href: "/dashboard/funds", label: "Funds" },

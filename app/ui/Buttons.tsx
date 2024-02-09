@@ -1,7 +1,6 @@
 export function InfoButton() {
     return (
         <button className="text-grey rounded px-2 py-1 text-lg flex items-center justify-center">
-            {/* This SVG is a common representation for a vertical three dots icon */}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -19,9 +18,11 @@ export function InfoButton() {
         </button>
     );
 }
+
 interface BuyButtonProps {
-    buyClickHandler: () => void; // This is a function that takes no arguments and returns nothing
+    buyClickHandler: () => void;
 }
+
 export function BuyButton({ buyClickHandler }: BuyButtonProps) {
 
     return (
@@ -31,9 +32,9 @@ export function BuyButton({ buyClickHandler }: BuyButtonProps) {
     )
 }
 
-export function SellButton() {
+export function SellButton( {sellClickHandler}: {sellClickHandler : () => void}) {
     return (
-        <button className="px-3 py-1 bg-red-500 text-white rounded-lg text-xs flex items-center justify-center">
+        <button onClick={sellClickHandler} className="px-3 py-1 bg-red-500 text-white rounded-lg text-xs flex items-center justify-center">
             Sell
         </button>
     )

@@ -1,6 +1,6 @@
 import { com } from "../generated/MarketDataFeed";
 import {MarketData, StockUpdate} from "@/types/websocket";
-import {WatchlistItem} from "@/types/types";
+import {OrderClient, OrderResponse, WatchlistItem} from "@/types/types";
 import Cookies from 'js-cookie'
 
 
@@ -90,6 +90,38 @@ export function getLocalStorageWithExpiry(key: string) {
     return item.value;
 }
 
+export const formatOrderResponse = (orderResponse: OrderResponse): OrderResponse => {
+    orderResponse.clients.forEach((client: OrderClient) => {
+        client.orders.forEach((order) => {
+            let status: string = order.status;
+            if (status === 'after market order req received') {
+                status = 'AMO';
+            }
+            status = status.toUpperCase();
+
+            const convertedTime: string = convertTo12HrFormat(order.order_timestamp);
+            order.status = status;
+            order.order_timestamp = convertedTime;
+        });
+    });
+
+    return orderResponse;
+};
+
+
+function convertTo12HrFormat(dateString: string) {
+    // Create a new Date object using the date string
+    const date = new Date(dateString);
+  
+    // Convert to local time string and specify options to use a 12-hour clock
+    const timeString = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  
+    return timeString;
+  }
 
 
 
