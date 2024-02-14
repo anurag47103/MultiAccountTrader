@@ -7,7 +7,7 @@ const axiosInstance = getAxiosInstance();
 
 export const getCSVDetails = async (): Promise<CSVDetails[]> => {
     try {
-        const getCSVDataUrl = `${config.BACKEND_BASE_URL}/getCSVData`;
+        const getCSVDataUrl = `/getCSVData`;
         const response  = await axiosInstance.get(getCSVDataUrl);
         const csvDetails : CSVDetails[] = response.data;
         return csvDetails;
@@ -19,7 +19,7 @@ export const getCSVDetails = async (): Promise<CSVDetails[]> => {
 
 export const getStockDetails = async (instrument_keys: string)  => {
     try {
-        const getStockDetailsUrl : string = `${config.BACKEND_BASE_URL}/dashboard/getStockDetails?instrument_key=${instrument_keys}`;
+        const getStockDetailsUrl : string = `/dashboard/getStockDetails?instrument_key=${instrument_keys}`;
 
         const response: AxiosResponse<StockDetails[]>  = await axiosInstance.get(getStockDetailsUrl);
 
@@ -42,7 +42,7 @@ export async function placeOrder(
     disclosed_quantity: number = 0,
     validity: string = 'DAY',
     tag: string = 'string') {
-    const placeOrderUrl: string = `${config.BACKEND_BASE_URL}/dashboard/placeOrder`;
+    const placeOrderUrl: string = `/dashboard/placeOrder`;
 
     const orderData = {
         instrument_key: instrument_key,
@@ -68,7 +68,7 @@ export async function placeOrder(
 
 export async function addToWatchlistForUser(instrument_key: string, userId: number) {
     try {
-        const addToWatchlistUrl: string = `${config.BACKEND_BASE_URL}/dashboard/addToWatchlist`;
+        const addToWatchlistUrl: string = `/dashboard/addToWatchlist`;
         console.log('userid in sending req : ', userId);
         const response = await axiosInstance.post(addToWatchlistUrl,
             {
@@ -84,7 +84,7 @@ export async function addToWatchlistForUser(instrument_key: string, userId: numb
 }
 
 export async function removeFromWatchlistForUser(instrument_key: string, userId: number) {
-    const removeFromWatchlistUrl : string = `${config.BACKEND_BASE_URL}/dashboard/removeFromWatchlist`;
+    const removeFromWatchlistUrl : string = `/dashboard/removeFromWatchlist`;
 
     const response = await axiosInstance.post(removeFromWatchlistUrl,
         {
@@ -98,7 +98,7 @@ export async function removeFromWatchlistForUser(instrument_key: string, userId:
 
 export async function getWatchlistForUser( userId: number)  {
 
-    const getWatchlistForUserUrl : string = `${config.BACKEND_BASE_URL}/dashboard/getWatchlistForUser?userId=${userId}`;
+    const getWatchlistForUserUrl : string = `/dashboard/getWatchlistForUser?userId=${userId}`;
 
     const response = await axiosInstance.get(getWatchlistForUserUrl)
 
@@ -106,7 +106,7 @@ export async function getWatchlistForUser( userId: number)  {
 }
 
 export async function addUpstoxUser( user_id: number, name: string, upstoxId: string, apiKey: string, apiSecret: string) {
-    const addUpstoxUserUrl : string = `${config.BACKEND_BASE_URL}/dashboard/addUpstoxUser`;
+    const addUpstoxUserUrl : string = `/dashboard/addUpstoxUser`;
 
     const response = await axiosInstance.post(addUpstoxUserUrl, {
         user_id: user_id,
@@ -120,7 +120,7 @@ export async function addUpstoxUser( user_id: number, name: string, upstoxId: st
 }
 
 export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
-    const getUpstoxAccountUrl = `${config.BACKEND_BASE_URL}/dashboard/getUpstoxAccounts`;
+    const getUpstoxAccountUrl = `/dashboard/getUpstoxAccounts`;
     try {
         const response  = await axiosInstance.get(getUpstoxAccountUrl);
 
@@ -134,7 +134,7 @@ export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
 }
 
 export const getAllHoldings = async() => {
-    const getAllHoldingsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllHoldings`;
+    const getAllHoldingsUrl = `/dashboard/getAllHoldings`;
 
     try {
         const response = await axiosInstance.get(getAllHoldingsUrl);
@@ -147,7 +147,7 @@ export const getAllHoldings = async() => {
 }
 
 export const getAllOrders  = async() => {
-    const getAllOrdersUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllOrders`;
+    const getAllOrdersUrl = `/dashboard/getAllOrders`;
 
     try {
         const response = await axiosInstance.get(getAllOrdersUrl);
@@ -160,7 +160,7 @@ export const getAllOrders  = async() => {
 }
 
 export const getAllPositions = async() => {
-    const getAllPositionsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllPositions`;
+    const getAllPositionsUrl = `/dashboard/getAllPositions`;
 
     try {
         const response = await axiosInstance.get(getAllPositionsUrl);

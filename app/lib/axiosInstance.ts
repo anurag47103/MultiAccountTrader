@@ -10,7 +10,7 @@ const getAxiosInstance = (): AxiosInstance => {
     if(axiosInstance) return axiosInstance;
 
     axiosInstance = axios.create({
-        baseURL: config.BACKEND_BASE_URL, // Your API base URL
+        baseURL: config.BACKEND_URL, // Your API base URL
         timeout: 5000, // Request timeout
     });
 

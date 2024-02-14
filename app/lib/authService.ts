@@ -26,7 +26,7 @@ export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 };
 
 export const registerUser = async ({ name, email, password }: UserRegistrationDetails): Promise<boolean> => {
-    const registerUrl = `${config.BACKEND_BASE_URL}/auth/register`;
+    const registerUrl = `${config.BACKEND_URL}/auth/register`;
     console.log(registerUrl)
 
     try {
@@ -45,7 +45,7 @@ export const registerUser = async ({ name, email, password }: UserRegistrationDe
 }
 
 export const loginUser = async ({email, password, login }: UserLoginDetails & {login: (userData: UserData) => void}): Promise<boolean> => {
-    const loginUrl = `${config.BACKEND_BASE_URL}/auth/login`;
+    const loginUrl = `/auth/login`;
 
     try {
         const response : AxiosResponse<UserData> = await axiosInstance.post(loginUrl,
@@ -72,7 +72,7 @@ export const logoutUser = async ({logout}: {logout: () => {}}) => {
 
 export const logoutUpstoxAccount = async (upstoxUserId: string) => {
     try {
-        const logoutUrl : string = `${config.BACKEND_BASE_URL}/auth/logoutUpstoxAccount`;
+        const logoutUrl : string = `${config.BACKEND_URL}/auth/logoutUpstoxAccount`;
 
         const response = await axiosInstance.post(logoutUrl,
             {upstoxUserId: upstoxUserId}
@@ -86,7 +86,7 @@ export const logoutUpstoxAccount = async (upstoxUserId: string) => {
 
 export const removeUpstoxAccount = async (upstoxUserId: string) => {
     try {
-        const removeUrl : string = `${config.BACKEND_BASE_URL}/dashboard/removeUpstoxUser`;
+        const removeUrl : string = `${config.BACKEND_URL}/dashboard/removeUpstoxUser`;
 
         const response = await axiosInstance.post(removeUrl, 
             {upstoxUserId}
