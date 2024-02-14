@@ -121,7 +121,14 @@ function convertTo12HrFormat(dateString: string) {
     });
   
     return timeString;
-  }
+}
 
+function encrypt(object: string) {
+
+}
+
+function decrypt(object: string) {
+
+}
 
 
