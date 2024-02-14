@@ -27,11 +27,11 @@ const StockCard = React.memo(function StockCard ({
     const router = useRouter();
 
     const buyHandler = async () => {
-        router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type='BUY'`, {});
+        router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type=BUY`, {});
     }
 
     const sellHandler = async () => {
-        router.push(`/dashboard/placeOrder?instrument_key=${symbol}&type='SELL'`);
+        router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type=SELL`, {});
     }
     return (
         <div

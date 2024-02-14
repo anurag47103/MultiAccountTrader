@@ -13,10 +13,10 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orderResponse }) => {
         <thead className='dark:bg-gray-900'>
           <tr className="text-left">
             <th className="text-sm px-3 py-2 text-right text-gray-400">Client</th>
-            <th className="text-sm px-3 py-2 text-right text-gray-400">Status</th>
-            <th className="text-sm px-3 py-2 text-right text-gray-400">Time</th>
-            <th className="text-sm px-3 py-2 text-right text-gray-400">Product</th>
             <th className="text-sm px-3 py-2 text-right text-gray-400">Symbol</th>
+            <th className="text-sm px-3 py-2 text-right text-gray-400">Status</th>
+            <th className="text-sm px-3 py-2 text-right text-gray-400">Product</th>
+            <th className="text-sm px-3 py-2 text-right text-gray-400">Time</th>
             <th className="text-sm px-3 py-2 text-right text-gray-400">Side</th>
             <th className="text-sm px-3 py-2 text-right text-gray-400">Quantity</th>
             <th className="text-sm px-3 py-2 text-right text-gray-400">Price</th>

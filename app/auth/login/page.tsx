@@ -1,5 +1,5 @@
 import React from 'react';
-import {AuthProvider, useAuth} from "@/contexts/AuthContext";
+import {AuthProvider} from "@/contexts/AuthContext";
 import LoginForm from "@/ui/LoginForm";
 
 export default function LoginPage() {

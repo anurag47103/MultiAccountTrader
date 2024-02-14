@@ -7,6 +7,7 @@ interface FormDataType {
     price: number;
     orderType: string;
     triggerPrice: number;
+    transaction: string;
     validity: string;
 }
 
@@ -17,7 +18,7 @@ enum orderTypes {
     SL_MKT = 'SL-M'
 }
 
-const PlaceOrderCard = ({instrument_key, buyOrSell}: {instrument_key: string, buyOrSell: string}) => {
+const PlaceOrderCard = ({instrument_key, transaction}: {instrument_key: string, transaction: string}) => {
     const { stockDetailsMap } = useStocks();
 
     const stock = stockDetailsMap.get(instrument_key);
@@ -27,6 +28,7 @@ const PlaceOrderCard = ({instrument_key, buyOrSell}: {instrument_key: string, bu
         price: 0,
         orderType: orderTypes.MARKET,
         triggerPrice: 0,
+        transaction: transaction,
         validity: 'DAY'
     });
 
@@ -48,7 +50,7 @@ const PlaceOrderCard = ({instrument_key, buyOrSell}: {instrument_key: string, bu
             formData.quantity,
             formData.price,
             formData.orderType,
-            'BUY',
+            formData.transaction,
             formData.triggerPrice,
             'D',
             true,
@@ -237,7 +239,11 @@ const PlaceOrderCard = ({instrument_key, buyOrSell}: {instrument_key: string, bu
             </div>
             <div className="flex justify-between items-center border-t border-gray-700 pt-4 mt-4">
                 <div className="text-m dark:text-white">Required: ₹{calculateRequired().toFixed(2)}</div>
-                <button className="py-2 px-6 bg-green-600 text-white rounded-lg">Buy order</button>
+                {
+                    transaction === 'BUY' ? 
+                        <button className="py-2 px-6 bg-green-600 text-white rounded-lg">{transaction}</button> :
+                        <button className="py-2 px-6 bg-red-600 text-white rounded-lg">{transaction}</button>
+                }
             </div>
         </form>
     );

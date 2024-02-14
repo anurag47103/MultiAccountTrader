@@ -1,13 +1,14 @@
 import config from "@/config/config";
 import {AccountDetails, CSVDetails, StockDetails, WatchlistItem} from "@/types/types";
 import axios, {AxiosResponse} from "axios";
+import getAxiosInstance from "./axiosInstance";
+
+const axiosInstance = getAxiosInstance();
 
 export const getCSVDetails = async (): Promise<CSVDetails[]> => {
     try {
         const getCSVDataUrl = `${config.BACKEND_BASE_URL}/getCSVData`;
-        const response  = await axios.get(getCSVDataUrl, {
-            withCredentials: true
-        });
+        const response  = await axiosInstance.get(getCSVDataUrl);
         const csvDetails : CSVDetails[] = response.data;
         return csvDetails;
     } catch (error) {
@@ -20,9 +21,7 @@ export const getStockDetails = async (instrument_keys: string)  => {
     try {
         const getStockDetailsUrl : string = `${config.BACKEND_BASE_URL}/dashboard/getStockDetails?instrument_key=${instrument_keys}`;
 
-        const response: AxiosResponse<StockDetails[]>  = await axios.get(getStockDetailsUrl, {
-            withCredentials: true
-        });
+        const response: AxiosResponse<StockDetails[]>  = await axiosInstance.get(getStockDetailsUrl);
 
         return response.data;
     } catch (error) {
@@ -30,6 +29,7 @@ export const getStockDetails = async (instrument_keys: string)  => {
         throw error;
     }
 }
+
 export async function placeOrder(
     instrument_key: string,
     quantity: number = 1,
@@ -59,7 +59,7 @@ export async function placeOrder(
     };
 
     try {
-        const response = await axios.post(placeOrderUrl, orderData, { withCredentials: true });
+        const response = await axiosInstance.post(placeOrderUrl, orderData);
         return response.data;
     }catch(error) {
         console.log('error in placing order: ', error)
@@ -70,12 +70,11 @@ export async function addToWatchlistForUser(instrument_key: string, userId: numb
     try {
         const addToWatchlistUrl: string = `${config.BACKEND_BASE_URL}/dashboard/addToWatchlist`;
         console.log('userid in sending req : ', userId);
-        const response = await axios.post(addToWatchlistUrl,
+        const response = await axiosInstance.post(addToWatchlistUrl,
             {
                 instrument_key: instrument_key,
                 userId: userId
-            },
-            {withCredentials: true});
+            });
 
         return response.data;
     } catch(error) {
@@ -87,12 +86,11 @@ export async function addToWatchlistForUser(instrument_key: string, userId: numb
 export async function removeFromWatchlistForUser(instrument_key: string, userId: number) {
     const removeFromWatchlistUrl : string = `${config.BACKEND_BASE_URL}/dashboard/removeFromWatchlist`;
 
-    const response = await axios.post(removeFromWatchlistUrl,
+    const response = await axiosInstance.post(removeFromWatchlistUrl,
         {
             instrument_key: instrument_key,
             userId: userId
-        },
-        {withCredentials: true});
+        });
 
 
     return response.data;
@@ -102,9 +100,7 @@ export async function getWatchlistForUser( userId: number)  {
 
     const getWatchlistForUserUrl : string = `${config.BACKEND_BASE_URL}/dashboard/getWatchlistForUser?userId=${userId}`;
 
-    const response = await axios.get(getWatchlistForUserUrl, {
-        withCredentials: true
-    })
+    const response = await axiosInstance.get(getWatchlistForUserUrl)
 
     return response.data;
 }
@@ -112,14 +108,13 @@ export async function getWatchlistForUser( userId: number)  {
 export async function addUpstoxUser( user_id: number, name: string, upstoxId: string, apiKey: string, apiSecret: string) {
     const addUpstoxUserUrl : string = `${config.BACKEND_BASE_URL}/dashboard/addUpstoxUser`;
 
-    const response = await axios.post(addUpstoxUserUrl, {
+    const response = await axiosInstance.post(addUpstoxUserUrl, {
         user_id: user_id,
         name,
         upstoxId,
         apiKey,
         apiSecret
-    },
-    {withCredentials: true});
+    });
 
     return response.data;
 }
@@ -127,9 +122,7 @@ export async function addUpstoxUser( user_id: number, name: string, upstoxId: st
 export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
     const getUpstoxAccountUrl = `${config.BACKEND_BASE_URL}/dashboard/getUpstoxAccounts`;
     try {
-        const response  = await axios.get(getUpstoxAccountUrl, {
-            withCredentials: true
-        });
+        const response  = await axiosInstance.get(getUpstoxAccountUrl);
 
         const accountDetails : AccountDetails[] = response.data.accountDetails;
 
@@ -144,9 +137,7 @@ export const getAllHoldings = async() => {
     const getAllHoldingsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllHoldings`;
 
     try {
-        const response = await axios.get(getAllHoldingsUrl, {
-            withCredentials: true
-        });
+        const response = await axiosInstance.get(getAllHoldingsUrl);
 
         console.log('response from getAllHoldings', response);
         return response.data;
@@ -159,9 +150,7 @@ export const getAllOrders  = async() => {
     const getAllOrdersUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllOrders`;
 
     try {
-        const response = await axios.get(getAllOrdersUrl, {
-            withCredentials: true
-        });
+        const response = await axiosInstance.get(getAllOrdersUrl);
 
         console.log('response from getAllOrders: ', response.data);
         return response.data;
@@ -174,9 +163,7 @@ export const getAllPositions = async() => {
     const getAllPositionsUrl = `${config.BACKEND_BASE_URL}/dashboard/getAllPositions`;
 
     try {
-        const response = await axios.get(getAllPositionsUrl, {
-            withCredentials: true
-        });
+        const response = await axiosInstance.get(getAllPositionsUrl);
 
         console.log('response from getAllPositions', response);
         return response.data;

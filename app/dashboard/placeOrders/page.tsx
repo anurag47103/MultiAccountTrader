@@ -10,7 +10,9 @@ const PlaceOrderPage = () => {
     const [selectedType, setSelectedType] = useState<string>('BUY');
     const searchParams = useSearchParams();
     const instrumentKey = searchParams.get('instrument_key');
-    const type = searchParams.get('type');
+    const type = searchParams.get('type')?.toString();
+
+    if(type === undefined) return <>transaction type not declared</>
 
     useEffect(() => {
         if (instrumentKey) setSelectedStock(instrumentKey);
@@ -21,7 +23,7 @@ const PlaceOrderPage = () => {
 
     return (
         <>
-            <PlaceOrderCard instrument_key={selectedStock} buyOrSell={selectedType}/>
+            <PlaceOrderCard instrument_key={selectedStock} transaction={type}/>
         </>
     );
 };

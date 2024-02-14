@@ -3,17 +3,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import {getLocalStorageWithExpiry, setLocalStorageWithExpiry} from "@/lib/utils";
+import { UserData } from '@/types/types';
 
 interface AuthContextType {
     user: UserData | null;
-    login: (userData: any) => void;
+    login: (userData: UserData) => void;
     logout: () => void;
-}
-
-interface UserData {
-    user_id: number;
-    userName: string;
-    jwtToken: string; // Assuming jwtToken should be a string
 }
 
 const AuthContext = createContext<AuthContextType>(null!);

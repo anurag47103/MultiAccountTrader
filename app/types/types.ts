@@ -12,6 +12,7 @@ export type UserLoginDetails = {
 export type UserData = {
     user_id: number,
     username: string,
+    token: string
 }
 
 export type AccountDetails = {

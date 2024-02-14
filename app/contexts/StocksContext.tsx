@@ -83,7 +83,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             return;
         }
         try {
-            wsRef.current = initializeWebSocket(`ws://${config.BACKEND_BASE_URL}:8080`,
+            wsRef.current = initializeWebSocket(`ws://localhost:8080`,
                 (update: StockUpdate[]) => {
 
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {

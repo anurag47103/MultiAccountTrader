@@ -1,14 +1,16 @@
 import axios, {AxiosResponse} from 'axios'
 import config from "@/config/config";
 import {UserLoginDetails, UserRegistrationDetails, UserData} from "@/types/types"
+import getAxiosInstance from './axiosInstance';
+
+const axiosInstance = getAxiosInstance();
+
 export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 
     try {
         const getAuthUrl = `${config.REACT_APP_GET_AUTH_URL}?upstoxUserId=${upstoxUserId}`;
         console.log(getAuthUrl)
-        const response = await axios.get(getAuthUrl, {
-            withCredentials: true
-        });
+        const response = await axiosInstance.get(getAuthUrl);
 
         return response?.data?.authUrl;
 
@@ -46,9 +48,8 @@ export const loginUser = async ({email, password, login }: UserLoginDetails & {l
     const loginUrl = `${config.BACKEND_BASE_URL}/auth/login`;
 
     try {
-        const response : AxiosResponse<UserData> = await axios.post(loginUrl,
-            { email, password },
-            { withCredentials: true }
+        const response : AxiosResponse<UserData> = await axiosInstance.post(loginUrl,
+            { email, password }
         );
 
         if(response.status === 200) {
@@ -73,9 +74,8 @@ export const logoutUpstoxAccount = async (upstoxUserId: string) => {
     try {
         const logoutUrl : string = `${config.BACKEND_BASE_URL}/auth/logoutUpstoxAccount`;
 
-        const response = await axios.post(logoutUrl,
-            {upstoxUserId: upstoxUserId} ,
-            {withCredentials: true}
+        const response = await axiosInstance.post(logoutUrl,
+            {upstoxUserId: upstoxUserId}
             );
 
         return response;
@@ -88,9 +88,8 @@ export const removeUpstoxAccount = async (upstoxUserId: string) => {
     try {
         const removeUrl : string = `${config.BACKEND_BASE_URL}/dashboard/removeUpstoxUser`;
 
-        const response = await axios.post(removeUrl, 
-            {upstoxUserId},
-            {withCredentials: true}
+        const response = await axiosInstance.post(removeUrl, 
+            {upstoxUserId}
         );
 
         return response;
