@@ -88,6 +88,8 @@ export interface Pnl {
 }
 
 export type Orders = {
+    upstoxUserId: string,
+    upstoxUsername: string,
     exchange: string,
     product: string,
     price: number,
@@ -109,14 +111,8 @@ export type Orders = {
     order_ref_id: string
 }
 
-export type OrderClient = {
-    upstoxUserId: string, 
-    upstoxUsername: string,
-    orders: Orders[]
-}
-
 export type OrderResponse = {
-    clients: OrderClient[]
+    orders: Orders[]
 }
 
 export type Position = {

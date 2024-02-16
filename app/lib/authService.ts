@@ -45,10 +45,10 @@ export const registerUser = async ({ name, email, password }: UserRegistrationDe
 }
 
 export const loginUser = async ({email, password, login }: UserLoginDetails & {login: (userData: UserData) => void}): Promise<boolean> => {
-    const loginUrl = `/auth/login`;
+    const loginUrl = `${config.BACKEND_URL}/auth/login`;
 
     try {
-        const response : AxiosResponse<UserData> = await axiosInstance.post(loginUrl,
+        const response : AxiosResponse<UserData> = await axios.post(loginUrl,
             { email, password }
         );
 

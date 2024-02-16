@@ -39,13 +39,9 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             return stockDetailsMap;
         }
 
-        console.log('watchlist: ' , watchlist);
-
         const instrumentKeys : string = generateInstrumentKeysString(watchlist);
 
         const fetchedStockDetails: StockDetails[]  = await getStockDetails(instrumentKeys);
-
-        console.log('stock details: ', fetchedStockDetails);
 
         const transformedData : StockUpdateWithName[] = fetchedStockDetails.map((stock: StockDetails) : StockUpdateWithName => {
             const changePercentage = stock.change/(stock.price - stock.change) * 100;
@@ -66,8 +62,6 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             new Map(transformedData
                 .map(stock => [stock.instrument_key, stock]));
 
-        console.log('setting baseStockMap to : ', transformedDataMap);
-
         setBaseStockMap(transformedDataMap);
         setStockDetailsMap(transformedDataMap);
     };
@@ -83,7 +77,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             return;
         }
         try {
-            wsRef.current = initializeWebSocket(`ws://${config.BACKEND_BASE_URL}}:8080`,
+            wsRef.current = initializeWebSocket(`ws://${config.BACKEND_BASE_URL}:8080`,
                 (update: StockUpdate[]) => {
 
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {
@@ -114,9 +108,6 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
                 if (wsRef.current) {
                     wsRef.current.close();
                 }
-                // if (ws) {
-                //     ws.close();
-                // }
             };
         }
         catch (e) {

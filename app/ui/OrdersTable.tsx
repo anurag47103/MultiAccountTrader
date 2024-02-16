@@ -1,12 +1,12 @@
 // components/OrdersTable.tsx
-import { OrderClient, OrderResponse, Orders } from '@/types/types';
+import { Orders } from '@/types/types';
 import React from 'react';
 
 interface OrdersTableProps {
-  orderResponse: OrderResponse;
+  orders: Orders[]
 }
 
-const OrdersTable: React.FC<OrdersTableProps> = ({ orderResponse }) => {
+const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
   return (
     <div className="overflow-x-auto">
       <table className="w-full bg-gray-800 text-white">
@@ -26,10 +26,10 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orderResponse }) => {
           </tr>
         </thead>
         <tbody>
-          {orderResponse.clients.map((client : OrderClient, clientIndex) =>
-            client.orders.map((order : Orders, orderIndex) => (
+          {
+            orders.map((order : Orders, orderIndex) => (
               <tr key={order.order_id} className="border-t border-gray-700">
-                <td className='px-4 py-2 text-right text-sm'>{client.upstoxUsername.toString().split(' ')[0]}<br/>{client.upstoxUserId}</td>
+                <td className='px-4 py-2 text-right text-sm'>{order.upstoxUsername.toString().split(' ')[0]}<br/>{order.upstoxUserId}</td>
                 <td className="px-4 py-2 text-right">{order.trading_symbol.split('-')[0]}</td>
                 <td className="px-4 py-2 text-right">{order.status}</td>
                 <td className="px-4 py-2 text-right">{order.product}</td>
@@ -42,7 +42,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orderResponse }) => {
                 <td className="px-4 py-2 text-right">{order.is_amo ? 'Yes' : 'No'}</td>
               </tr>
             ))
-          )}
+          }
         </tbody>
       </table>
     </div>

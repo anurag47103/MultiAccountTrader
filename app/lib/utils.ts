@@ -1,6 +1,6 @@
 import { com } from "../generated/MarketDataFeed";
 import {MarketData, StockUpdate} from "@/types/websocket";
-import {OrderClient, OrderResponse, WatchlistItem} from "@/types/types";
+import { OrderResponse, Orders, WatchlistItem} from "@/types/types";
 import Cookies from 'js-cookie'
 
 
@@ -90,9 +90,8 @@ export function getLocalStorageWithExpiry(key: string) {
     return item.value;
 }
 
-export const formatOrderResponse = (orderResponse: OrderResponse): OrderResponse => {
-    orderResponse.clients.forEach((client: OrderClient) => {
-        client.orders.forEach((order) => {
+export const formatOrderResponse = (orders: Orders[]): Orders[] => {
+    orders.forEach((order: Orders) => {
             let status: string = order.status;
             if (status === 'after market order req received') {
                 status = 'AMO';
@@ -103,9 +102,13 @@ export const formatOrderResponse = (orderResponse: OrderResponse): OrderResponse
             order.status = status;
             order.order_timestamp = convertedTime;
         });
-    });
 
-    return orderResponse;
+    return orders;
+};
+
+export const sortOrderResponse = (orders: Orders[]): Orders[] => {
+    orders.sort((a, b) => new Date(b.order_timestamp).getTime() - new Date(a.order_timestamp).getTime());
+    return orders;
 };
 
 

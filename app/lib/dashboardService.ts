@@ -41,7 +41,8 @@ export async function placeOrder(
     is_amo: boolean,
     disclosed_quantity: number = 0,
     validity: string = 'DAY',
-    tag: string = 'string') {
+    tag: string = 'string',
+    selectedUsers: string[]) {
     const placeOrderUrl: string = `/dashboard/placeOrder`;
 
     const orderData = {
@@ -56,6 +57,7 @@ export async function placeOrder(
         disclosed_quantity: disclosed_quantity,
         validity: validity,
         tag: tag,
+        selectedUsers: selectedUsers
     };
 
     try {

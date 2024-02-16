@@ -6,11 +6,13 @@ import {AccountDetails} from "@/types/types";
 
 interface AccountsContextType {
     accountsDetails: AccountDetails[],
+    loggedInAccounts: AccountDetails[],
     refreshAccountsDetails: () => void,
 }
 export const AccountsContext = createContext<AccountsContextType>({
     accountsDetails: [],
-    refreshAccountsDetails: () => {},  // Function to refresh account details
+    loggedInAccounts: [],
+    refreshAccountsDetails: () => {}, 
 });
 
 export const useAccounts = () => useContext(AccountsContext);
@@ -18,10 +20,15 @@ export const useAccounts = () => useContext(AccountsContext);
 export const AccountsProvider = ({ children }: { children: ReactNode}) => {
     const [accountsDetails, setAccountsDetails] =
         useState<AccountDetails[]>([]);
+    
+    const [loggedInAccounts, setLoggedInAccounts] = useState<AccountDetails[]>([]);
 
     const refreshAccountsDetails = async () => {
         try {
-            const accounts = await getUpstoxAccounts(); // Your axios call to fetch accounts
+            const accounts = await getUpstoxAccounts(); 
+            setLoggedInAccounts(accounts.filter((account) => {
+                return account.isLoggedIn;
+            }))
             setAccountsDetails(accounts);
         } catch (error) {
             console.error('Failed to fetch accounts', error);
@@ -33,7 +40,7 @@ export const AccountsProvider = ({ children }: { children: ReactNode}) => {
     }, []);
 
     return (
-        <AccountsContext.Provider value={{ accountsDetails, refreshAccountsDetails }}>
+        <AccountsContext.Provider value={{ accountsDetails, loggedInAccounts, refreshAccountsDetails }}>
             {children}
         </AccountsContext.Provider>
     );

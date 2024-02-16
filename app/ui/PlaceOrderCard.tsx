@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from 'react';
 import {useStocks} from "@/contexts/StocksContext";
 import {placeOrder} from "@/lib/dashboardService";
 
@@ -18,7 +18,8 @@ enum orderTypes {
     SL_MKT = 'SL-M'
 }
 
-const PlaceOrderCard = ({instrument_key, transaction}: {instrument_key: string, transaction: string}) => {
+const PlaceOrderCard = ({instrument_key, transaction, selectedUsers, onOrderResults}: 
+    {instrument_key: string, transaction: string, selectedUsers: string[], onOrderResults: (success: number, failed: number) => void}) => {
     const { stockDetailsMap } = useStocks();
 
     const stock = stockDetailsMap.get(instrument_key);
@@ -56,10 +57,12 @@ const PlaceOrderCard = ({instrument_key, transaction}: {instrument_key: string, 
             true,
             0,
             formData.validity,
-            'string'
+            'string',
+            selectedUsers
             );
 
         console.log(response);
+        onOrderResults(response.success_count, response.failed_count)
     }
 
     const handleQuantityChange = (quantity: number) => {
