@@ -1,4 +1,4 @@
-import config from "@/config/config";
+
 import {AccountDetails, CSVDetails, StockDetails, WatchlistItem} from "@/types/types";
 import axios, {AxiosResponse} from "axios";
 import getAxiosInstance from "./axiosInstance";
@@ -93,9 +93,11 @@ export async function removeFromWatchlistForUser(instrument_key: string, userId:
             instrument_key: instrument_key,
             userId: userId
         });
+    
+    
 
-
-    return response.data;
+    if(response.status === 201) return true;
+    else return false;
 }
 
 export async function getWatchlistForUser( userId: number)  {

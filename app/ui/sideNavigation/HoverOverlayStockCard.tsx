@@ -12,8 +12,8 @@ const HoverOverlayStockCard = ({buyClickHandler, sellClickHandler, removeHandler
 
     const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
 
-    const handleRemove = () => {
-
+    const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
+        removeHandler(e);
     }
     return (
         <>
@@ -25,15 +25,17 @@ const HoverOverlayStockCard = ({buyClickHandler, sellClickHandler, removeHandler
         </div>
 
         {isDropdownVisible && (
-            <div className="absolute top-full right-0 bg-white shadow-md rounded py-2 w-20 h-12">
-            <button
-                onClick={handleRemove}
-                className="block w-full text-center text-sm text-gray-700 hover:bg-gray-100 h-10"
-            >
-            Remove
-            </button>
-            </div>
-        )}
+  <div className="absolute top-full right-0 translate-x-[-20px] translate-y-[-20px] bg-dark shadow-md rounded py-2 w-20 h-12">
+    <button
+      onClick={handleRemove}
+      className="block w-full text-center text-sm text-white bg-gray-800 hover:bg-gray-900 h-10"
+    >
+      Remove
+    </button>
+  </div>
+)}
+
+
       </>
     );
 };

@@ -5,6 +5,7 @@ import HoverOverlayStockCard from "./HoverOverlayStockCard";
 import {useRouter} from "next/navigation";
 import { removeFromWatchlistForUser } from '@/lib/dashboardService';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWatchlist } from '@/contexts/WatchlistContext';
 
 interface StockCardProps {
     name: string;
@@ -28,6 +29,7 @@ const StockCard = React.memo(function StockCard ({
     const priceChangeColor = change < 0 ? 'text-red-500' : 'text-green-500';
     const router = useRouter();
     const { user } = useAuth();
+    const { refreshWatchlist } = useWatchlist();
 
     const buyHandler = async () => {
         router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type=BUY`, {});
@@ -41,6 +43,7 @@ const StockCard = React.memo(function StockCard ({
         e.stopPropagation();
         if(!user) return;
         removeFromWatchlistForUser(symbol, user.user_id);
+        refreshWatchlist();
     }
     return (
         <div

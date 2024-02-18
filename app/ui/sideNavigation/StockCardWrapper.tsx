@@ -17,11 +17,19 @@ const StockCardWrapper: React.FC = () => {
         );
     }
 
-    if(!stockDetailsMap || stockDetailsMap.size === 0) {
+    if(!stockDetailsMap) {
         return (
             <>
                 Error in getting stock details.
             </> 
+        )
+    }
+
+    if(stockDetailsMap.size === 0) {
+        return (
+            <div className='mx-2 p-2'>
+                Add a stock to the watchlist.
+            </div>
         )
     }
 
