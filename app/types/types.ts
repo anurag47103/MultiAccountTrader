@@ -148,3 +148,24 @@ export type PositionPnl = {
     pnl: number,
     pnl_percentage: number
 }
+
+export type FundsDetails = {
+    used_margin: number;
+    payin_amount: number;
+    span_margin: number;
+    adhoc_margin: number;
+    notional_cash: number;
+    available_margin: number;
+    exposure_margin: number;
+  }
+  
+  export type Funds = {
+    equity: FundsDetails;
+    commodity: FundsDetails;
+  }
+
+  export type FundsResponse = {
+    upstoxUserId: string,
+    upstoxUsername: string,
+    funds: Funds
+  }

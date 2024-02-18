@@ -38,21 +38,35 @@ const PlaceOrderPage = () => {
 
     
     return (
-        <>
-            <PlaceOrderCard instrument_key={selectedStock} transaction={type} selectedUsers={selectedUsers} onOrderResults={handleOrderResults}/>
+        <div className="flex-1 custom-scrollbar overflow-auto">
+          <div className="">
+            <PlaceOrderCard
+              instrument_key={selectedStock}
+              transaction={type}
+              selectedUsers={selectedUsers}
+              onOrderResults={handleOrderResults}
+            />
             <AccountsProvider>
-                <UserSelection selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+              <UserSelection
+                selectedUsers={selectedUsers}
+                setSelectedUsers={setSelectedUsers}
+              />
             </AccountsProvider>
-            {
-                isDialogOpen && 
-                <DialogComponent 
-                    onClose={() => {setIsDialogOpen(false)}} 
-                    successCount={orderResults.successCount} 
-                    failureCount={orderResults.failureCount}
-                />
-            }
-        </>
-    );
+          </div>
+          {isDialogOpen && (
+            <DialogComponent
+              onClose={() => setIsDialogOpen(false)}
+              successCount={orderResults.successCount}
+              failureCount={orderResults.failureCount}
+            />
+          )}
+        </div>
+      );
+      
+      
+      
+      
+      
 };
 
 export default PlaceOrderPage;

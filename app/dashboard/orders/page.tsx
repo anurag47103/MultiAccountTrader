@@ -16,7 +16,7 @@ const OrdersPage = () => {
             const fetchOrders = async () => {
                 const data : OrderResponse = await getAllOrders();
                 const sortedData: Orders[] = sortOrderResponse(data.orders);
-                const formatedData: Orders[] = formatOrderResponse(data.orders);
+                const formatedData: Orders[] = formatOrderResponse(sortedData);
                 setOrders(formatedData);
                 setIsLoading(false);
             }

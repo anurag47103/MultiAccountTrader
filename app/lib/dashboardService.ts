@@ -118,7 +118,8 @@ export async function addUpstoxUser( user_id: number, name: string, upstoxId: st
         apiSecret
     });
 
-    return response.data;
+    if(response.status === 201) return true;
+    else return false;
 }
 
 export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
@@ -171,6 +172,19 @@ export const getAllPositions = async() => {
         return response.data;
     } catch(error) {
         console.error('Error in getting all Positions', error);
+    }
+}
+
+export const getAllFunds = async() => {
+    const getAllFundsUrl = `/dashboard/getAllFunds`;
+
+    try {
+        const response = await axiosInstance.get(getAllFundsUrl);
+
+        console.log(`response from getFundsForUser: `, response);
+        return response.data;
+    } catch(error) {
+        console.error('Error in getting all Funds', error);
     }
 }
 

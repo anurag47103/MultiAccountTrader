@@ -26,7 +26,7 @@ const HoldingsTable = ({holdingResponse} : {holdingResponse: HoldingResponse}) =
           {holdingResponse.clients.map((client : Client, index : number) => {
             return client.holdings.map((holding : Holding, index2: number) => {
               return (
-                <tr key={index*43 + index2} className={`bg-${index % 2 === 0 ? 'gray-700' : 'gray-600'}`}>
+                <tr key={index*43 + index2} className={`bg-${index % 2 === 0 ? 'gray-800' : 'gray-800'}`}>
                   <td className="py-2 text-right text-sm">{client.upstoxUsername.split(' ')[0]}<br/>{client.upstoxUserId}</td>
                   <td className="px-4 py-2 text-right">{holding.trading_symbol}</td>
                   <td className="px-4 py-2 text-right">{holding.quantity}</td>

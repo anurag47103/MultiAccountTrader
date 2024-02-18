@@ -6,10 +6,17 @@ import { getAuthUrl, logoutUpstoxAccount, removeUpstoxAccount } from '@/lib/auth
 import AddUserPopup from '../AddUserPopup';
 import { useAuth } from '@/contexts/AuthContext';
 import { addUpstoxUser } from '@/lib/dashboardService';
+import Snackbar from '../Snackbar';
 
 interface AccountListProps {
     onAddUser: () => void;
     onLogout: (userId: string) => void;
+}
+
+interface SnackbarStateProps {
+    visible:boolean;
+    message:string;
+    type: 'success' | 'error';
 }
 
 const AccountList = () => {
@@ -18,6 +25,7 @@ const AccountList = () => {
     const { user } = useAuth();
     const [showAddUserPopup, setShowAddUserPopup] = useState(false);
     const [newUserData, setNewUserData] = useState({ name: '', upstoxId: '', apiKey: '', apiSecret: '' });
+    const [snackbarState, setSnackbarState] = useState<SnackbarStateProps>({visible: false, message: '', type: 'success'});
 
     const handleLogin = async (upstoxUserId: string) => {
         try {
@@ -50,19 +58,27 @@ const AccountList = () => {
 
     const handleUserSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(user)
-            addUpstoxUser(user.user_id, newUserData.name, newUserData.upstoxId, newUserData.apiKey, newUserData.apiSecret);
+        if(user) {
+            const response : boolean = await addUpstoxUser(user.user_id, newUserData.name, newUserData.upstoxId, newUserData.apiKey, newUserData.apiSecret);
+            if(response)  setSnackbarState({visible:true, message:'New user added successfully.', type:'success'});
+            else setSnackbarState({visible:true, message:'Error in adding a new Upstox user.', type:'error'});
+        }
+        else setSnackbarState({visible:true, message:'An Error occured while adding a new Upstox user.', type:'error'});
+
+        setTimeout(() => setSnackbarState({ ...snackbarState, visible: false }), 3000);
+
         setShowAddUserPopup(false);
-        refreshAccountsDetails();
+        await refreshAccountsDetails();
     };
 
     async function handleDelete(upstoxUserId: string) {
         const response = await removeUpstoxAccount(upstoxUserId);
-        console.log('remove upstox account response: ', response);
+        refreshAccountsDetails();
     }
 
     return (
-        <div className="text-gray-800 dark:bg-gray-800 shadow-2xl rounded-lg p-8 overflow-hidden border border-gray-300 dark:border-gray-700 max-w-2xl mx-auto">
+        <div className="text-gray-800 dark:bg-gray-800 shadow-2xl rounded-lg p-8 overflow-hidden border border-gray-300 dark:border-gray-700 mx-auto w-full md:max-w-4xl">
+
             <ul className="divide-y divide-gray-600">
                 {accountsDetails.map(account => (
                     <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out px-3">
@@ -99,6 +115,8 @@ const AccountList = () => {
                     onUserDataChange={handleUserDataChange}
                 />
             )}
+
+            {snackbarState.visible && <Snackbar message={snackbarState.message} type={snackbarState.type} />}
         </div>
     );
 

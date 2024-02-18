@@ -1,7 +1,6 @@
 'use client'
 
 import React, {ReactNode, useContext, useEffect, useState} from 'react';
-import {WatchlistItem} from "@/types/types";
 import {addToWatchlistForUser, getWatchlistForUser, removeFromWatchlistForUser} from "@/lib/dashboardService";
 import {useAuth} from "@/contexts/AuthContext";
 

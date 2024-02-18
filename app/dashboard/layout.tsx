@@ -29,7 +29,7 @@ export default function RootLayout({
                             <div className="flex-row">
                                 <div className="flex">
                                         <StockViewWrapper/>
-                                    <div className="flex-1">
+                                    <div className="flex-1 flex flex-col h-screen">
                                         <TopNavBar/>
                                         {children}
                                     </div>
