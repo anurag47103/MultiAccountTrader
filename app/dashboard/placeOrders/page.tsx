@@ -4,12 +4,14 @@ import PlaceOrderCard from "@/ui/PlaceOrderCard";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import UserSelection from "@/ui/UserSelection";
-import { AccountsProvider } from "@/contexts/AccountsContext";
+import { AccountsProvider, useAccounts } from "@/contexts/AccountsContext";
 import { useWatchlist } from "@/contexts/WatchlistContext";
 import DialogComponent from "@/ui/DialogComponent";
+import NoAccountMessage from "@/ui/NoAccountMessage";
 
 const PlaceOrderPage = () => {
     const { watchlist } = useWatchlist();
+    const { loggedInAccounts } = useAccounts();
 
     const [selectedStock, setSelectedStock] = useState<string>(watchlist[0]);
     const [selectedType, setSelectedType] = useState<string>('BUY');
@@ -33,6 +35,12 @@ const PlaceOrderPage = () => {
         if(selectedType) setSelectedType(selectedType)
         
     }, [instrumentKey, selectedType, watchlist]);
+
+    if(!loggedInAccounts || loggedInAccounts.length === 0) {
+        return (
+           <NoAccountMessage action="place orders" />
+          );
+    }
     
     if(selectedStock === undefined) return <>Please select a stock from the Watchlist</>;
 

@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 if (sessionUser) {
                     setUser(JSON.parse(sessionUser));
                 } else {
-                    console.log('AuthProvider: User not loggedIn')
+                    console.error('AuthProvider: User not loggedIn')
                     router.push('/auth/login');
                 }
             };

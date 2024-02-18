@@ -31,7 +31,6 @@ const AccountList = () => {
         try {
             const url = await getAuthUrl(upstoxUserId);
             if (url) {
-                console.log(url);
                 window.open(url);
                 refreshAccountsDetails();
             } else {
@@ -45,7 +44,6 @@ const AccountList = () => {
     const handleLogout = async (upstoxUserId: string) => {
         const response = await logoutUpstoxAccount(upstoxUserId);
         refreshAccountsDetails();
-        console.log('handle logout', response);
     };
 
     const handleAddUser = () => {

@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {CSVDetails} from "@/types/types";
 import {getCSVDetails} from "@/lib/dashboardService";
 import {storeCSVData} from "@/db";
+import { permanentRedirect } from "next/navigation";
 
 export default function Home() {
   useEffect(() => {
@@ -13,6 +14,8 @@ export default function Home() {
       storeCSVData(csvData);
     })()
   }, []);
+
+  permanentRedirect(`/dashboard/placeOrders`)
   return (
     <main>
 

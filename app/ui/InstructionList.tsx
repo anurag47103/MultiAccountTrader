@@ -5,7 +5,7 @@ const InstructionList = () => (
         <li>Enter <code className="bg-gray-700 text-white p-1 rounded">https://mab-server.lol/api/v1/auth/authCallback</code> as the Redirect URL.</li>
         <li>Name your app and click "Continue".</li>
         <li>Copy the API Key and Secret provided.</li>
-        <li>Go back to your account to add a new user with these credentials.</li>
+        <li>Come back to this page to add a new user with these credentials.</li>
       </ol>
     </div>
   );

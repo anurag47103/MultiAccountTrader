@@ -9,7 +9,6 @@ export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 
     try {
         const getAuthUrl = `${config.REACT_APP_GET_AUTH_URL}?upstoxUserId=${upstoxUserId}`;
-        console.log(getAuthUrl)
         const response = await axiosInstance.get(getAuthUrl);
 
         return response?.data?.authUrl;
@@ -27,7 +26,6 @@ export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 
 export const registerUser = async ({ name, email, password }: UserRegistrationDetails): Promise<boolean> => {
     const registerUrl = `${config.BACKEND_URL}/auth/register`;
-    console.log(registerUrl)
 
     try {
         const response = await axios.post(registerUrl, {
@@ -35,8 +33,6 @@ export const registerUser = async ({ name, email, password }: UserRegistrationDe
             email,
             password
         });
-
-        console.log('Registration successful:', response.data);
         return true;
     } catch (error: any) {
         console.error('Registration error:', error.message);

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import HoverOverlayStockCard from "./HoverOverlayStockCard";
 import {useRouter} from "next/navigation";
+import { removeFromWatchlistForUser } from '@/lib/dashboardService';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface StockCardProps {
     name: string;
@@ -25,6 +27,7 @@ const StockCard = React.memo(function StockCard ({
     const [isHovered, setIsHovered] = useState(false);
     const priceChangeColor = change < 0 ? 'text-red-500' : 'text-green-500';
     const router = useRouter();
+    const { user } = useAuth();
 
     const buyHandler = async () => {
         router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type=BUY`, {});
@@ -33,9 +36,15 @@ const StockCard = React.memo(function StockCard ({
     const sellHandler = async () => {
         router.push(`/dashboard/placeOrders?instrument_key=${symbol}&type=SELL`, {});
     }
+
+    const removeHandler = async(e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        if(!user) return;
+        removeFromWatchlistForUser(symbol, user.user_id);
+    }
     return (
         <div
-            className="relative border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex justify-between items-center"
+            className={`relative border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex justify-between items-center ${isHovered ? 'z-10' : 'z-0'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -54,7 +63,7 @@ const StockCard = React.memo(function StockCard ({
                         </div>
                     </div>
                 }
-                {isHovered && <HoverOverlayStockCard buyClickHandler={buyHandler} sellClickHandler={sellHandler}/>}
+                {isHovered && <HoverOverlayStockCard buyClickHandler={buyHandler} sellClickHandler={sellHandler} removeHandler={removeHandler}/>}
             </div>
         </div>
     );

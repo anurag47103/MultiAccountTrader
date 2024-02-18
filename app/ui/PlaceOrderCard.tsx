@@ -61,7 +61,6 @@ const PlaceOrderCard = ({instrument_key, transaction, selectedUsers, onOrderResu
             selectedUsers
             );
 
-        console.log(response);
         onOrderResults(response.success_count, response.failed_count)
     }
 

@@ -46,7 +46,6 @@ export const WatchlistProvider = ({ children }: { children: ReactNode }) => {
         setWatchlist(prev => [...prev, instrument_key]);
         if(user) {
             const response = await addToWatchlistForUser(instrument_key, user.user_id);
-            console.log('response from addToWatchlist : ' + response);
         }
     };
 
@@ -55,7 +54,6 @@ export const WatchlistProvider = ({ children }: { children: ReactNode }) => {
 
         if(user) {
             const response = await removeFromWatchlistForUser(instrument_key, user.user_id);
-            console.log('response from removeFromWatchlist : ', response);
         }
     };
 

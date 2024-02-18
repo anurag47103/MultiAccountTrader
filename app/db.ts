@@ -40,8 +40,7 @@ export async function fetchStocks(query: string): Promise<CSVDetails[]> {
     if (!query) {
         return [];
     }
-    console.log('search started....');
+    
     const response : CSVDetails[] =  await db.stocks.where('name').startsWithIgnoreCase(query).limit(20).toArray();
-    console.log('searched ended..... with ', response.length, ' results');
     return response;
 }

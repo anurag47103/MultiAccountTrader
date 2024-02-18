@@ -7,7 +7,6 @@ interface WalletProps {
   totalCash: number;
   availableToTrade: number;
   marginUsed: number;
-  unavailableToTrade: number;
   totalCollateral: number;
   availableToWithdraw: number;
 }
@@ -18,7 +17,6 @@ const Wallet: React.FC<WalletProps> = ({
   totalCash,
   availableToTrade,
   marginUsed,
-  unavailableToTrade,
   totalCollateral,
   availableToWithdraw,
 }) => {
@@ -48,13 +46,8 @@ const Wallet: React.FC<WalletProps> = ({
               <p>Margin used</p>
               <p className="font-bold">{formatCurrency(marginUsed)}</p>
             </div>
-            <div className="mb-4">
-              <p>Unavailable to trade</p>
-              <p className="font-bold">{formatCurrency(unavailableToTrade)}</p>
-            </div>
           </div>
 
-          {/* Right column for collateral details */}
           <div>
             <h3 className="text-lg mb-2 font-semibold">Total collateral</h3>
             <div className="mb-4">

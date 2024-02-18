@@ -64,14 +64,14 @@ export async function placeOrder(
         const response = await axiosInstance.post(placeOrderUrl, orderData);
         return response.data;
     }catch(error) {
-        console.log('error in placing order: ', error)
+        console.error('error in placing order: ', error)
     }
 }
 
 export async function addToWatchlistForUser(instrument_key: string, userId: number) {
     try {
         const addToWatchlistUrl: string = `/dashboard/addToWatchlist`;
-        console.log('userid in sending req : ', userId);
+
         const response = await axiosInstance.post(addToWatchlistUrl,
             {
                 instrument_key: instrument_key,
@@ -131,7 +131,7 @@ export const getUpstoxAccounts = async() : Promise<AccountDetails[]> => {
 
         return accountDetails;
     } catch (error) {
-        console.log('error in getting upstox accounts ', error);
+        console.error('error in getting upstox accounts ', error);
         return [];
     }
 }
@@ -141,8 +141,6 @@ export const getAllHoldings = async() => {
 
     try {
         const response = await axiosInstance.get(getAllHoldingsUrl);
-
-        console.log('response from getAllHoldings', response);
         return response.data;
     } catch(error) {
         console.error('Error in getting all Holdings', error);
@@ -154,8 +152,6 @@ export const getAllOrders  = async() => {
 
     try {
         const response = await axiosInstance.get(getAllOrdersUrl);
-
-        console.log('response from getAllOrders: ', response.data);
         return response.data;
     } catch(error) {
         console.error('Error in getting all Orders : ', error);
@@ -167,8 +163,6 @@ export const getAllPositions = async() => {
 
     try {
         const response = await axiosInstance.get(getAllPositionsUrl);
-
-        console.log('response from getAllPositions', response);
         return response.data;
     } catch(error) {
         console.error('Error in getting all Positions', error);
@@ -180,8 +174,6 @@ export const getAllFunds = async() => {
 
     try {
         const response = await axiosInstance.get(getAllFundsUrl);
-
-        console.log(`response from getFundsForUser: `, response);
         return response.data;
     } catch(error) {
         console.error('Error in getting all Funds', error);

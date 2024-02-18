@@ -1,8 +1,10 @@
 'use client'
 
+import { useAccounts } from "@/contexts/AccountsContext";
 import { getAllHoldings } from "@/lib/dashboardService"
 import { HoldingResponse } from "@/types/types";
 import HoldingsTable from "@/ui/HoldingsTable";
+import NoAccountMessage from "@/ui/NoAccountMessage";
 import { useEffect, useState } from "react"
 
 type HoldingsResponse = HoldingResponse | null;
@@ -12,6 +14,7 @@ const Holdings = () => {
   const [holdingResponse, setHoldingResponse] = useState<HoldingsResponse>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { loggedInAccounts } =  useAccounts();
 
   useEffect(() => {
     const fetchHoldings = async () => {
@@ -30,12 +33,17 @@ const Holdings = () => {
     fetchHoldings();
   }, []);
 
+  if(!loggedInAccounts || loggedInAccounts.length === 0) {
+    return (
+       <NoAccountMessage action="view holdings" />
+      );
+  }
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   if (!holdingResponse) return <p>No data found.</p>;
 
     return (
-      <div className="overflow-x-auto m-4 rounded-lg">
+      <div className="overflow-x-auto m-4 rounded-lg flex-1 custom-scrollbar overflow-auto">
         <div className="flex justify-between text-gray-400 dark:bg-gray-800 py-3 px-6">
           <div className="flex-1">
             <div className="text-gray-400">Invested</div>

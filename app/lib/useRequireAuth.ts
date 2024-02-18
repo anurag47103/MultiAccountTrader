@@ -9,7 +9,7 @@ const useRequireAuth = () => {
 
     useEffect(() => {
         if (auth.user === null) {
-            console.log("user not logged in : useRequireAuth")
+            console.error("user not logged in : useRequireAuth")
             router.push('/auth/login');
         }
     }, [auth, router]);

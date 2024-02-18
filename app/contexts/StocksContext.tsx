@@ -8,6 +8,7 @@ import {generateInstrumentKeysString} from "@/lib/utils";
 import {StockDetails} from "@/types/types";
 import {initializeWebSocket} from "@/lib/marketFeed";
 import config from "@/config/config";
+import { useAccounts } from "./AccountsContext";
 
 interface StockContextType {
     stockDetailsMap: Map<string, StockUpdateWithName>,
@@ -33,9 +34,16 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
 
     const { watchlist } = useWatchlist();
 
+    const { loggedInAccounts } = useAccounts();
+
     async function refreshBaseStockMap( watchlist: string[] ) {
         if(!watchlist || watchlist.length < 1) {
             console.error('Watchlist is undefined in refreshStockDetails')
+            return stockDetailsMap;
+        }
+
+        if(!loggedInAccounts || loggedInAccounts.length ===0) {
+            console.error('No upstox user is logged in.')
             return stockDetailsMap;
         }
 
@@ -111,7 +119,7 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
             };
         }
         catch (e) {
-            console.log('websocket connection error');
+            console.error('websocket connection error');
         }
     }, [baseStockMap])
 

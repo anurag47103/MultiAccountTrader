@@ -1,10 +1,7 @@
 'use client'
 
+import { permanentRedirect } from 'next/navigation'
+
 export default function Home() {
-
-    return (
-        <main>
-
-        </main>
-    )
+    permanentRedirect(`/dashboard/placeOrders`)
 }
