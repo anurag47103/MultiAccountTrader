@@ -84,8 +84,11 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
         if(!stockDetailsMap || stockDetailsMap.size < 1 ) {
             return;
         }
+        let websocketUrlHost = 'wss://';
+        if(config.NODE_ENV === 'dev') websocketUrlHost = 'ws://'
+        
         try {
-            wsRef.current = initializeWebSocket(`ws://${config.BACKEND_BASE_URL}:8080`,
+            wsRef.current = initializeWebSocket(`${websocketUrlHost}${config.BACKEND_BASE_URL}:8080`,
                 (update: StockUpdate[]) => {
 
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {
