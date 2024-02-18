@@ -19,7 +19,7 @@ const FundsPage = () => {
       try {
         setLoading(true);
         const data : FundsResponse[] = await getAllFunds();
-
+        console.log('funds response', data)
         setFundsResponse(data);
       } catch (err) {
         setError('An error occurred while fetching Positions');
@@ -40,7 +40,7 @@ const FundsPage = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-  if (!fundsResponse) return <p>No data found.</p>;
+  if (!fundsResponse || fundsResponse.length == 0 || !fundsResponse[0].funds) return <p>No data found.</p>;
   
 
   return (
