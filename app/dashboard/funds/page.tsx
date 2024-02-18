@@ -46,8 +46,9 @@ const FundsPage = () => {
   return (
     <div className="flex-1 custom-scrollbar overflow-auto"> 
       {
-        fundsResponse.map(fundResponse => {
+        fundsResponse.map((fundResponse, index) => {
             return <Wallet
+              key={fundResponse.upstoxUserId || index}
               upstoxUsername={fundResponse.upstoxUsername}
               upstoxUserId={fundResponse.upstoxUserId}
               totalCash={fundResponse.funds.equity.available_margin + fundResponse.funds.equity.used_margin}
