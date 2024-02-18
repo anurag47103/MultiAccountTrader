@@ -1,6 +1,10 @@
-export function InfoButton() {
+interface InfoButtonProps {
+    onInfoClick: () => void; // Add an onClick prop to the interface
+}
+
+export function InfoButton({onInfoClick}: InfoButtonProps) {
     return (
-        <button className="text-grey rounded px-2 py-1 text-lg flex items-center justify-center">
+        <button onClick={onInfoClick} className="text-grey rounded px-2 py-1 text-lg flex items-center justify-center">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
