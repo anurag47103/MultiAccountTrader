@@ -90,14 +90,16 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
         try {
             wsRef.current = initializeWebSocket(`${websocketUrlHost}${config.BACKEND_BASE_URL}:8080`,
                 (update: StockUpdate[]) => {
-
+                    console.log('new update from backend.')
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {
 
                         const newStockMap = new Map(previousStockDetailsMap);
 
                         update.forEach((stockUpdate: StockUpdate) => {
-                            const stock = stockDetailsMap.get(stockUpdate.instrument_key);
 
+                            const stock = stockDetailsMap.get(stockUpdate.instrument_key);
+                            console.log('new stock',stock);
+                            
                             if (stock !== undefined) {
                                 const newItem: StockUpdateWithName = {
                                     name: stock.name, 
