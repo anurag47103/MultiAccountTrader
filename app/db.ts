@@ -18,10 +18,14 @@ class StockDatabase extends Dexie {
 
 const db = new StockDatabase();
 
+export async function checkCSVData() {
+    if(await db.stocks.count() > 1000) return true;
+    else return false;
+}
+
 export async function storeCSVData(csvData: CSVDetails[]) {
-    if(await db.stocks.count() > 1000) {
-        return;
-    }
+    if(await checkCSVData()) return;
+    
     console.log('storing csv...');
     try {
         await db.transaction('rw', db.stocks, async () => {
