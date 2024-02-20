@@ -84,13 +84,13 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
         if(!stockDetailsMap || stockDetailsMap.size < 1 ) {
             return;
         }
-        let websocketUrlHost = 'wss://';
-        if(config.NODE_ENV === 'dev') websocketUrlHost = 'ws://'
+        let websocketUrlHost = '';
+        if(config.NODE_ENV === 'dev') websocketUrlHost = 'ws://localhost:4001'
+        else websocketUrlHost = `wss://${config.BACKEND_BASE_URL}`
         
         try {
-            wsRef.current = initializeWebSocket(`${websocketUrlHost}${config.BACKEND_BASE_URL}`,
+            wsRef.current = initializeWebSocket(websocketUrlHost,
                 (update: StockUpdate[]) => {
-                    console.log('new update from backend.')
                     setStockDetailsMap((previousStockDetailsMap: Map<string, StockUpdateWithName>): Map<string, StockUpdateWithName> => {
 
                         const newStockMap = new Map(previousStockDetailsMap);
@@ -98,7 +98,6 @@ export const StocksProvider = ({ children } : { children: ReactNode}) => {
                         update.forEach((stockUpdate: StockUpdate) => {
 
                             const stock = stockDetailsMap.get(stockUpdate.instrument_key);
-                            console.log('new stock',stock);
 
                             if (stock !== undefined) {
                                 const newItem: StockUpdateWithName = {
