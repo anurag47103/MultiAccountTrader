@@ -75,9 +75,9 @@ const AccountList = () => {
     }
 
     return (
-        <div className="text-gray-800 dark:bg-gray-800 shadow-2xl rounded-lg p-8 overflow-hidden border border-gray-300 dark:border-gray-700 mx-auto w-full md:max-w-4xl">
+        <div className="text-gray-800 dark:bg-gray-800 shadow-2xl rounded-lg px-6 py-4 border border-gray-300 dark:border-gray-700 mx-auto w-full md:max-w-4xl max-h-100">
 
-            <ul className="divide-y divide-gray-600">
+            <ul className="divide-y divide-gray-600 custom-scrollbar overflow-y-auto max-h-80">
                 {accountsDetails.map(account => (
                     <li key={account.upstoxUserId} className="flex justify-between items-center py-4 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out px-3">
                         <span className="text-lg font-medium dark:text-gray-300">{account.upstoxUsername} (ID: {account.upstoxUserId})</span>
