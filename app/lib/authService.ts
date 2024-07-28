@@ -8,7 +8,7 @@ const axiosInstance = getAxiosInstance();
 export const getAuthUrl = async (upstoxUserId: string): Promise<string> => {
 
     try {
-        const getAuthUrl = `${config.REACT_APP_GET_AUTH_URL}?upstoxUserId=${upstoxUserId}`;
+        const getAuthUrl = `/auth/getAuthUrl?upstoxUserId=${upstoxUserId}`;
         const response = await axiosInstance.get(getAuthUrl);
 
         return response?.data?.authUrl;
