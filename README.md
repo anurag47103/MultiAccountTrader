@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+![MAB Screenshot](https://raw.githubusercontent.com/anurag47103/MultiAccountTrader/main/public/mab-1.png)
+![MAB Screenshot](https://raw.githubusercontent.com/anurag47103/MultiAccountTrader/main/public/mab-2.png)
+
+
 ## Getting Started
 
 First, run the development server:
